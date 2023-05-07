@@ -5,17 +5,17 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@SpringBootApplication
 @RestController
-public class ProductivityPalApplication {
+@SpringBootApplication
+public class ProductivitypalApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(ProductivityPalApplication.class, args);
+		SpringApplication.run(ProductivitypalApplication.class, args);
 	}
 
 	@GetMapping("/")
 	public String hello() {
-		return "Hello productivity!!";
+		return "Hello Productivity!";
 	}
 
 }

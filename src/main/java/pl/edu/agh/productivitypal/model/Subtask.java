@@ -5,14 +5,12 @@ import pl.edu.agh.productivitypal.model.enums.Difficulty;
 import pl.edu.agh.productivitypal.model.enums.Likeliness;
 
 import java.time.LocalDate;
-import java.util.List;
 
 @Entity
-@Table(name = "task")
-public class Task {
+@Table(name = "subtask")
+public class Subtask {
     @Id
     private Long id;
-    private Long categoryId;
     private String name;
     private String description;
     private int priority;
@@ -22,16 +20,10 @@ public class Task {
     private Likeliness likeliness;
     private LocalDate deadline;
     private Long timeEstimate;
-    private Long completionTime;
-    private boolean isSubtask;
-    private boolean isParent;
-    private boolean isCompleted;
+    private boolean is_completed;
+
 
     @ManyToOne
-    private AppUser appUser;
+    private Task task;
 
-    @OneToMany(mappedBy = "task")
-    private List<Subtask> subtask;
 }
-
-

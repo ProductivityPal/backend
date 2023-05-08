@@ -1,8 +1,6 @@
 package pl.edu.agh.productivitypal.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 import java.time.LocalDate;
 
@@ -21,6 +19,9 @@ public class Task {
     private Long completionTime;
     private boolean isSubtask;
     private boolean isParent;
+
+    @ManyToOne
+    private AppUser appUser;
 }
 
 

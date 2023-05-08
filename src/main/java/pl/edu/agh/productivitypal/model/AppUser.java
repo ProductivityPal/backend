@@ -1,9 +1,9 @@
 package pl.edu.agh.productivitypal.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import pl.edu.agh.productivitypal.model.enums.EnergyLevel;
+
+import java.util.List;
 
 @Entity
 @Table(name = "app_user")
@@ -13,7 +13,10 @@ public class AppUser {
     private String username;
     private String password;
     private String email;
-//    private EnergyLevel energyLevel;
-    private int energyLevel;
+    @Enumerated(EnumType.STRING)
+    private EnergyLevel energyLevel;
+
+    @OneToMany(mappedBy = "appUser")
+    private List<Task> task;
 
 }

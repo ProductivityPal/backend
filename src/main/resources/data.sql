@@ -11,7 +11,7 @@ BEGIN
     IF (NOT EXISTS(SELECT * FROM app_user))
         THEN
             insert into app_user(id, username, password, email, energy_level)
-            values (1, ''Johnny123'', ''password'', ''johny123@gmail.com'', 2);
+            values (1, ''Johnny123'', ''password'', ''johny123@gmail.com'', ''LOW'');
     END IF;
 
     IF (NOT EXISTS(SELECT * FROM category))

@@ -11,8 +11,8 @@ import java.util.List;
 @Table(name = "task")
 public class Task {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Long categoryId;
     private String name;
     private String description;
     private int priority;
@@ -32,6 +32,9 @@ public class Task {
 
     @OneToMany(mappedBy = "task")
     private List<Subtask> subtask;
+
+    @OneToOne
+    private Category category;
 }
 
 

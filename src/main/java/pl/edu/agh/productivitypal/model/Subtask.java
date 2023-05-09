@@ -10,6 +10,7 @@ import java.time.LocalDate;
 @Table(name = "subtask")
 public class Subtask {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
     private String description;
@@ -20,7 +21,7 @@ public class Subtask {
     private Likeliness likeliness;
     private LocalDate deadline;
     private Long timeEstimate;
-    private boolean is_completed;
+    private boolean isCompleted;
 
 
     @ManyToOne

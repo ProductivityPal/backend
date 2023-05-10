@@ -1,14 +1,16 @@
 package pl.edu.agh.productivitypal.model;
 
 import jakarta.persistence.*;
-import pl.edu.agh.productivitypal.model.enums.Difficulty;
-import pl.edu.agh.productivitypal.model.enums.Likeliness;
+import lombok.Getter;
+import pl.edu.agh.productivitypal.enums.Difficulty;
+import pl.edu.agh.productivitypal.enums.Likeliness;
 
 import java.time.LocalDate;
 import java.util.List;
 
 @Entity
 @Table(name = "task")
+@Getter
 public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,14 +29,19 @@ public class Task {
     private boolean isParent;
     private boolean isCompleted;
 
+    @Transient
+    private double priorityScore;
+
     @ManyToOne
     private AppUser appUser;
 
-    @OneToMany(mappedBy = "task")
-    private List<Subtask> subtask;
 
     @OneToOne
     private Category category;
+
+    public void setPriorityScore(double priorityScore) {
+        this.priorityScore = priorityScore;
+    }
 }
 
 

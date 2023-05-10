@@ -8,12 +8,6 @@ BEGIN
         values (1, ''Buy new skirt'', ''Buy new skirt for prom'', 5, ''HARD'', ''DISLIKE'',  ''2019-12-12'', 2, 0, false, false, false);
     END IF;
 
-    IF (NOT EXISTS(SELECT * FROM subtask))
-        THEN
-            insert into subtask(id, name, description, priority, difficulty, likeliness, deadline, time_estimate, is_completed)
-            values (1,''Find shop'', ''Online would be perfect'', 5, ''HARD'', ''DISLIKE'', ''2019-12-12'', 2,  false);
-    END IF;
-
 
     IF (NOT EXISTS(SELECT * FROM app_user))
         THEN

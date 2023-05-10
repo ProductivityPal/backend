@@ -1,7 +1,8 @@
 package pl.edu.agh.productivitypal.model;
 
 import jakarta.persistence.*;
-import pl.edu.agh.productivitypal.model.enums.EnergyLevel;
+import lombok.Getter;
+import pl.edu.agh.productivitypal.enums.EnergyLevel;
 
 import java.util.List;
 
@@ -20,4 +21,7 @@ public class AppUser {
     @OneToMany(mappedBy = "appUser")
     private List<Task> task;
 
+    public EnergyLevel getEnergyLevel() {
+        return energyLevel;
+    }
 }

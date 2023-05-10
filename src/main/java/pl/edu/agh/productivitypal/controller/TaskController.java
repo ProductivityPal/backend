@@ -1,23 +1,30 @@
 package pl.edu.agh.productivitypal.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-import pl.edu.agh.productivitypal.model.enums.EnergyLevel;
+import org.springframework.web.bind.annotation.*;
+import pl.edu.agh.productivitypal.model.Task;
+import pl.edu.agh.productivitypal.enums.EnergyLevel;
+import pl.edu.agh.productivitypal.service.TaskService;
+
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "/task")
 public class TaskController {
 
-    @GetMapping("/hello")
-    public String hello() {
-        return "Hello Productivity!";
+    private final TaskService taskService;
+
+    public TaskController(TaskService taskService) {
+        this.taskService = taskService;
     }
 
-    @GetMapping("/get")
-    public String enumTest(@RequestParam(required = false) EnergyLevel level) {
-        return level.name();
+
+    @GetMapping("/")
+    public List<Task> getTasks() {
+        return taskService.getAllTasks();
     }
 
+    @GetMapping("/algosort")
+    public List<Task> getTasksSortedByAlgosort() {
+        return taskService.getTasksSortedByAlgosort();
+    }
 }

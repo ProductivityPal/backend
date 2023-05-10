@@ -6,4 +6,6 @@ import pl.edu.agh.productivitypal.model.Task;
 
 @Repository
 public interface TaskRepository extends JpaRepository<Task, Long> {
+
+
 }

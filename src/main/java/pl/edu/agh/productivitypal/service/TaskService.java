@@ -64,7 +64,74 @@ public class TaskService {
 
         return sortedTasks;
 
+    }
 
-//        return taskRepository.findAllAlgosort();
+    public void addTask(Task task) {
+        taskRepository.save(task);
+    }
+
+    public Task getTaskById(Long id) {
+        return taskRepository.findById(id).orElseThrow();
+    }
+
+    public Task updateTask(Long id, Task task){
+        Task taskToUpdate = taskRepository.findById(id).orElseThrow();
+        taskToUpdate.setName(task.getName());
+        taskToUpdate.setDescription(task.getDescription());
+        taskToUpdate.setPriority(task.getPriority());
+        taskToUpdate.setDifficulty(task.getDifficulty());
+        taskToUpdate.setLikeliness(task.getLikeliness());
+        taskToUpdate.setDeadline(task.getDeadline());
+        taskToUpdate.setTimeEstimate(task.getTimeEstimate());
+        taskToUpdate.setCompletionTime(task.getCompletionTime());
+        taskToUpdate.setSubtask(task.isSubtask());
+        taskToUpdate.setParent(task.isParent());
+        taskToUpdate.setCompleted(task.isCompleted());
+        taskToUpdate.setPriorityScore(task.getPriorityScore());
+        taskToUpdate.setAppUser(task.getAppUser());
+        taskToUpdate.setCategory(task.getCategory());
+        taskRepository.save(taskToUpdate);
+        return taskToUpdate;
+    }
+
+    public Task addSubtask(Long id, Task subtask) {
+        Task parentTask = taskRepository.findById(id).orElseThrow();
+        parentTask.setParent(true);
+        subtask.setSubtask(true);
+        subtask.setParentId(id);
+        taskRepository.save(subtask);
+        return parentTask;
+    }
+
+    public void deleteTask(Long id) {
+        Task taskToDelete = taskRepository.findById(id).orElseThrow();
+        if (taskToDelete.isParent()) {
+            List<Task> subtasks = taskRepository.findAllByParentId(id);
+            for (Task subtask : subtasks) {
+                subtask.setSubtask(false);
+                subtask.setParentId(null);
+            }
+        }
+        taskRepository.deleteById(id);
+    }
+
+    public void deleteTaskAndAllSubtask(Long id) {
+        Task taskToDelete = taskRepository.findById(id).orElseThrow();
+        if (taskToDelete.isParent()) {
+            List<Task> subtasks = taskRepository.findAllByParentId(id);
+            for (Task subtask : subtasks) {
+                taskRepository.deleteById(subtask.getId());
+            }
+        }
+        taskRepository.deleteById(id);
+    }
+
+    public void deleteSubtask(Long taskId, Long subtaskId) {
+        Task taskToDelete = taskRepository.findById(taskId).orElseThrow();
+        List<Task> subtasks = taskRepository.findAllByParentId(taskId);
+        if (subtasks.size() == 1) {
+            taskToDelete.setParent(false);
+        }
+        taskRepository.deleteById(subtaskId);
     }
 }

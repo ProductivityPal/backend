@@ -19,7 +19,7 @@ class TaskRepositoryTest {
     private TaskRepository testedRepository;
 
     @Test
-    void findAllByParentId() {
+    void itShouldReturnChildTaskWithGivenParentId() {
         // given
         Task parentTask = new Task(1L, "Buy new skirt", "Buy new skirt for prom", 5, Difficulty.HARD, Likeliness.DISLIKE, LocalDate.of(2019,12,12), 2L, 0L, false, false, false, null);
         Task childTask = new Task(2L, "Buy new shoes", "Buy new shoes for prom", 5, Difficulty.HARD, Likeliness.DISLIKE, LocalDate.of(2019,12,12), 2L, 1L, false, false, false, parentTask.getId());
@@ -36,4 +36,20 @@ class TaskRepositoryTest {
         assertThat(tasks.size()).isEqualTo(1);
         assertThat(tasks.get(0).getId()).isEqualTo(childTask.getId());
     }
+
+    @Test
+    void itShouldReturnEmptyListWhenNoSubtasksWithGivenParentIdExists() {
+        // given
+
+        Long parentId = 1L;
+
+        // when
+
+        List<Task> tasks = testedRepository.findAllByParentId(parentId);
+
+        // then
+
+        assertThat(tasks.size()).isEqualTo(0);
+    }
+
 }

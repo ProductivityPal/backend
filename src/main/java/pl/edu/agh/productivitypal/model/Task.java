@@ -1,7 +1,9 @@
 package pl.edu.agh.productivitypal.model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import pl.edu.agh.productivitypal.enums.Difficulty;
 import pl.edu.agh.productivitypal.enums.Likeliness;
@@ -13,6 +15,8 @@ import java.util.List;
 @Table(name = "task")
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,6 +45,24 @@ public class Task {
 
     @OneToOne
     private Category category;
+
+    public Task(Long id, String name, String description, int priority, Difficulty difficulty, Likeliness likeliness, LocalDate deadline, Long timeEstimate, Long completionTime, boolean isSubtask, boolean isParent, boolean isCompleted, Long parentId) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.priority = priority;
+        this.difficulty = difficulty;
+        this.likeliness = likeliness;
+        this.deadline = deadline;
+        this.timeEstimate = timeEstimate;
+        this.completionTime = completionTime;
+        this.isSubtask = isSubtask;
+        this.isParent = isParent;
+        this.isCompleted = isCompleted;
+        this.parentId = parentId;
+
+    }
+
 
 }
 

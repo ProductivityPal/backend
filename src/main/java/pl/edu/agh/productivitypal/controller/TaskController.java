@@ -21,15 +21,21 @@ public class TaskController {
 
 
     @CrossOrigin(origins = "http://localhost:5173")
-    @GetMapping("/")
+    @GetMapping("/all")
     public List<Task> getTasks() {
         return taskService.getAllTasks();
     }
 
     @CrossOrigin(origins = "http://localhost:5173")
+    @GetMapping("/")
+    public List<Task> getTasksOfCurrentUser(@RequestParam Long id) {
+        return taskService.getAllTasksOfCurrentUser(id);
+    }
+
+    @CrossOrigin(origins = "http://localhost:5173")
     @GetMapping("/algosort")
-    public List<Task> getTasksSortedByAlgosort() {
-        return taskService.getTasksSortedByAlgosort();
+    public List<Task> getTasksSortedByAlgosort(@RequestParam Long id) {
+        return taskService.getTasksSortedByAlgosort(id);
     }
 
     @CrossOrigin(origins = "http://localhost:5173")
@@ -77,8 +83,8 @@ public class TaskController {
 
     @CrossOrigin(origins = "http://localhost:5173")
     @GetMapping("/{id}/subtask")
-    public List<Task> getSubtasks(@PathVariable Long id) {
-        return taskService.getSubtasks(id);
+    public List<Task> getSubtasks(@PathVariable Long id, @RequestParam Long userId) {
+        return taskService.getSubtasks(userId, id);
     }
 
     @CrossOrigin(origins = "http://localhost:5173")

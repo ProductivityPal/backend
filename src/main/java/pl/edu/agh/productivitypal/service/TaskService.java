@@ -28,10 +28,22 @@ public class TaskService {
         return taskRepository.findAll();
     }
 
+    public List<Task> getAllTasksOfCurrentUser(Long id) {
+        return taskRepository
+                .findAll()
+                .stream()
+                .filter(task -> task.getAppUser().getId().equals(id))
+                .collect(Collectors.toList());
+    }
 
-    public List<Task> getTasksSortedByAlgosort() {
 
-        List<Task> tasks = taskRepository.findAll();
+    public List<Task> getTasksSortedByAlgosort(Long id) {
+
+        List<Task> tasks = taskRepository
+                .findAll()
+                .stream()
+                .filter(task -> task.getAppUser().getId().equals(id))
+                .collect(Collectors.toList());;
 
         LocalDate now = LocalDate.now();
         for (Task task : tasks){
@@ -172,8 +184,8 @@ public class TaskService {
         taskRepository.deleteById(subtaskId);
     }
 
-    public List<Task> getSubtasks(Long id) {
-        return taskRepository.findAllByParentId(id);
+    public List<Task> getSubtasks(Long id, Long parentId){
+        return taskRepository.findAllByParentIdAndAndAppUserId(parentId, id);
     }
 
     public Task getSubtask(Long taskId, Long subtaskId){

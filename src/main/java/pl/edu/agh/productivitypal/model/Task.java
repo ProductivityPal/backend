@@ -1,5 +1,6 @@
 package pl.edu.agh.productivitypal.model;
 
+import com.fasterxml.jackson.annotation.JsonValue;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

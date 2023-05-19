@@ -1,13 +1,20 @@
 package pl.edu.agh.productivitypal.model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import pl.edu.agh.productivitypal.enums.EnergyLevel;
 
 import java.util.List;
 
 @Entity
 @Table(name = "app_user")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class AppUser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

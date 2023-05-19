@@ -74,22 +74,59 @@ public class TaskService {
         return taskRepository.findById(id).orElseThrow();
     }
 
+    private Task updateTaskData(Task task, Task taskToUpdate){
+        if (task.getName() != null){
+            taskToUpdate.setName(task.getName());
+        }
+        if(task.getDescription() != null){
+            taskToUpdate.setDescription(task.getDescription());
+        }
+        if(task.getPriority() != taskToUpdate.getPriority()){
+            taskToUpdate.setPriority(task.getPriority());
+        }
+        if(task.getDifficulty() != null){
+            taskToUpdate.setDifficulty(task.getDifficulty());
+        }
+        if (task.getLikeliness() != null){
+            taskToUpdate.setLikeliness(task.getLikeliness());
+        }
+        if (task.getDeadline() != null){
+            taskToUpdate.setDeadline(task.getDeadline());
+        }
+        if (task.getTimeEstimate() != null){
+            taskToUpdate.setTimeEstimate(task.getTimeEstimate());
+        }
+        if (task.getCompletionTime() != null){
+            taskToUpdate.setCompletionTime(task.getCompletionTime());
+        }
+        if (task.getPriorityScore() != taskToUpdate.getPriorityScore()){
+            taskToUpdate.setPriorityScore(task.getPriorityScore());
+        }
+        if (task.isParent() != taskToUpdate.isParent()){
+            taskToUpdate.setParent(task.isParent());
+        }
+        if(task.isCompleted() != taskToUpdate.isCompleted()){
+            taskToUpdate.setCompleted(task.isCompleted());
+        }
+        if (task.isSubtask() != taskToUpdate.isSubtask()){
+            taskToUpdate.setSubtask(task.isSubtask());
+        }
+        if (task.getParentId() != taskToUpdate.getParentId()){
+            taskToUpdate.setParentId(task.getParentId());
+        }
+        if (task.getAppUser() != null){
+            taskToUpdate.setAppUser(task.getAppUser());
+        }
+        if (task.getCategory() != null){
+            taskToUpdate.setCategory(task.getCategory());
+        }
+
+        return taskToUpdate;
+    }
+
     public Task updateTask(Long id, Task task){
         Task taskToUpdate = taskRepository.findById(id).orElseThrow();
-        taskToUpdate.setName(task.getName());
-        taskToUpdate.setDescription(task.getDescription());
-        taskToUpdate.setPriority(task.getPriority());
-        taskToUpdate.setDifficulty(task.getDifficulty());
-        taskToUpdate.setLikeliness(task.getLikeliness());
-        taskToUpdate.setDeadline(task.getDeadline());
-        taskToUpdate.setTimeEstimate(task.getTimeEstimate());
-        taskToUpdate.setCompletionTime(task.getCompletionTime());
-        taskToUpdate.setSubtask(task.isSubtask());
-        taskToUpdate.setParent(task.isParent());
-        taskToUpdate.setCompleted(task.isCompleted());
-        taskToUpdate.setPriorityScore(task.getPriorityScore());
-        taskToUpdate.setAppUser(task.getAppUser());
-        taskToUpdate.setCategory(task.getCategory());
+        taskToUpdate = updateTaskData(task, taskToUpdate);
         taskRepository.save(taskToUpdate);
         return taskToUpdate;
     }
@@ -134,4 +171,20 @@ public class TaskService {
         }
         taskRepository.deleteById(subtaskId);
     }
+
+    public List<Task> getSubtasks(Long id) {
+        return taskRepository.findAllByParentId(id);
+    }
+
+    public Task getSubtask(Long taskId, Long subtaskId){
+        return taskRepository.findByIdAndParentId(subtaskId, taskId);
+    }
+
+    public Task updateSubtask(Long taskId, Long subtaskId, Task task){
+        Task subtaskToUpdate = taskRepository.findByIdAndParentId(subtaskId, taskId);
+        subtaskToUpdate = updateTaskData(task, subtaskToUpdate);
+        taskRepository.save(subtaskToUpdate);
+        return subtaskToUpdate;
+    }
+
 }

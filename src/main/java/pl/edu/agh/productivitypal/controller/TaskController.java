@@ -65,4 +65,19 @@ public class TaskController {
     public void deleteTask(@PathVariable Long taskId, @PathVariable Long subtaskId){
         taskService.deleteSubtask(taskId, subtaskId);
     }
+
+    @GetMapping("/{id}/subtask")
+    public List<Task> getSubtasks(@PathVariable Long id) {
+        return taskService.getSubtasks(id);
+    }
+
+    @GetMapping("/{taskId}/subtask/{subtaskId}")
+    public Task getSubtask(@PathVariable Long taskId, @PathVariable Long subtaskId){
+        return taskService.getSubtask(taskId, subtaskId);
+    }
+
+    @PutMapping("/{taskId}/subtask/{subtaskId}")
+    public Task updateSubtask(@PathVariable Long taskId, @PathVariable Long subtaskId, @RequestBody Task task){
+        return taskService.updateSubtask(taskId, subtaskId, task);
+    }
 }

@@ -45,5 +45,34 @@ BEGIN
             insert into task(id, name, description, priority, difficulty, likeliness, deadline, time_estimate, completion_time, is_subtask, is_parent, is_completed, parent_id, app_user_id, category_id)
             values (7, ''End the task for client'', ''ID-765'', 10, ''EXTRA_HARD'', ''LIKE'', ''2019-07-07'', 2, 0, false, false, false, null, 1, 1);
         END IF;
+
+    IF (NOT EXISTS(SELECT * FROM calendar))
+        THEN
+            insert into calendar(id, name, app_user_id)
+            values (1, ''AGH'', 1);
+            insert into calendar(id, name, app_user_id)
+            values (2, ''Work'', 1);
+            insert into calendar(id, name, app_user_id)
+            values (3, ''Home'', 2);
+            insert into calendar(id, name, app_user_id)
+            values (4, ''Friends'', 4);
+            insert into calendar(id, name, app_user_id)
+            values (5, ''Birthday'', 3);
+        END IF;
+
+    IF (NOT EXISTS(SELECT * FROM calendar_task))
+        THEN
+            insert into calendar_task(calendar_task_id, start_date, end_date, calendar_id)
+            values (1, ''2019-12-08'', null, 2);
+            insert into calendar_task(calendar_task_id, start_date, end_date, calendar_id)
+            values (2, ''2019-12-06'', null, 2);
+            insert into calendar_task(calendar_task_id, start_date, end_date, calendar_id)
+            values (3, ''2019-12-07'', null, 2);
+            insert into calendar_task(calendar_task_id, start_date, end_date, calendar_id)
+            values (4, ''2019-11-08'', null, 3);
+            insert into calendar_task(calendar_task_id, start_date, end_date, calendar_id)
+            values (5, ''2019-09-08'', null, 1);
+        END IF;
+
 END;
 '  LANGUAGE PLPGSQL;

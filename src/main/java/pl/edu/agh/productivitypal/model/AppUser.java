@@ -30,6 +30,9 @@ public class AppUser {
     @OneToMany(mappedBy = "appUser")
     private List<Task> task;
 
+    @OneToMany(mappedBy = "appUser")
+    private List<Calendar> calendar;
+
     public EnergyLevel getEnergyLevel() {
         return energyLevel;
     }

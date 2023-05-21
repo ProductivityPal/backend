@@ -1,5 +1,7 @@
 package pl.edu.agh.productivitypal.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonValue;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -24,6 +26,7 @@ public class Calendar {
     @ManyToOne
     private AppUser appUser;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "calendar")
     private List<CalendarTask> calendarTask;
 

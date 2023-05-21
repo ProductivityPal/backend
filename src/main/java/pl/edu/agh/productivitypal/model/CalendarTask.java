@@ -1,9 +1,6 @@
 package pl.edu.agh.productivitypal.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.PrimaryKeyJoinColumn;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,14 +14,17 @@ import java.time.LocalDate;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@PrimaryKeyJoinColumn(name = "calendarTaskId")
-public class CalendarTask extends Task{
-
-
+public class CalendarTask{
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     private LocalDate startDate;
     private LocalDate endDate;
 
     @ManyToOne
     private Calendar calendar;
+
+    @OneToOne
+    private Task task;
 }

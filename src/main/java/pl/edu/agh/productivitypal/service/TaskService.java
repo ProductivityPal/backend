@@ -54,11 +54,6 @@ public class TaskService {
                     Weight.TIME_ESTIMATE.getValue() * task.getTimeEstimate() +
                     Weight.LIKELINESS.getValue() * task.getLikeliness().getValue();
             task.setPriorityScore(priorityScore);
-            System.out.println("ALGO SORT PRIORITY SCORE:");
-            System.out.println(task.getName());
-            System.out.println("> Days till deadline: " + difference.getDays());
-            System.out.println("> Deadline score: " + Weight.DEADLINE.getValue() * (1 / daysUntilDeadline) * 100);
-            System.out.println("> Priority Score: " + priorityScore);
         }
 
         tasks.sort((a, b) -> Double.compare(b.getPriorityScore(), a.getPriorityScore()));

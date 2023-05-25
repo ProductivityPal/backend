@@ -41,8 +41,8 @@ public class TaskController {
     @CrossOrigin(origins = "http://localhost:5173")
     @PostMapping("/")
     @ResponseStatus(code = HttpStatus.CREATED)
-    public void addTask(@RequestBody Task task) {
-        taskService.addTask(task);
+    public Long addTask(@RequestBody Task task) {
+        return taskService.addTask(task);
     }
 
     @CrossOrigin(origins = "http://localhost:5173")
@@ -59,7 +59,7 @@ public class TaskController {
 
     @CrossOrigin(origins = "http://localhost:5173")
     @PostMapping("/{id}/subtask")
-    public Task addSubtask(@PathVariable Long id, @RequestBody Task task) {
+    public Long addSubtask(@PathVariable Long id, @RequestBody Task task) {
         return taskService.addSubtask(id, task);
     }
 

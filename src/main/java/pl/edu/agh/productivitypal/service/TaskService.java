@@ -78,8 +78,9 @@ public class TaskService {
 
     }
 
-    public void addTask(Task task) {
+    public Long addTask(Task task) {
         taskRepository.save(task);
+        return task.getId();
     }
 
     public Task getTaskById(Long id) {
@@ -143,13 +144,13 @@ public class TaskService {
         return taskToUpdate;
     }
 
-    public Task addSubtask(Long id, Task subtask) {
+    public Long addSubtask(Long id, Task subtask) {
         Task parentTask = taskRepository.findById(id).orElseThrow();
         parentTask.setParent(true);
         subtask.setSubtask(true);
         subtask.setParentId(id);
         taskRepository.save(subtask);
-        return parentTask;
+        return subtask.getId();
     }
 
     public void deleteTask(Long id) {

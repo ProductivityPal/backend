@@ -15,13 +15,13 @@ public class AppUserController {
         this.appUserService = appUserService;
     }
 
-    @CrossOrigin(origins = "http://localhost:5173")
+    @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/")
     public void addUser(@RequestBody AppUser appUser) {
         appUserService.addUser(appUser);
     }
 
-    @CrossOrigin(origins = "http://localhost:5173")
+    @CrossOrigin(origins = "http://localhost:3000")
     @PutMapping("/energyLevel/{energyLevel}")
     public void updateEnergyLevel(@PathVariable EnergyLevel energyLevel, @RequestParam Long id) {
         appUserService.updateEnergyLevel(id, energyLevel);

@@ -1,5 +1,7 @@
 package pl.edu.agh.productivitypal.service;
 
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import pl.edu.agh.productivitypal.enums.EnergyLevel;
 import pl.edu.agh.productivitypal.enums.Weight;
@@ -28,9 +30,10 @@ public class TaskService {
         return taskRepository.findAll();
     }
 
-    public List<Task> getAllTasksOfCurrentUser(Long id) {
+    public List<Task> getAllTasksOfCurrentUser(Long id, String order, String sortBy, int offset, int pageSize) {
+
         return taskRepository
-                .findAll()
+                .findAll(PageRequest.of(offset, pageSize, Sort.by(Sort.Direction.fromString(order.toUpperCase()), sortBy)))
                 .stream()
                 .filter(task -> task.getAppUser().getId().equals(id))
                 .collect(Collectors.toList());

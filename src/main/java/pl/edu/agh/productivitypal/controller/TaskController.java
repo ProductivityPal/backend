@@ -27,9 +27,13 @@ public class TaskController {
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
-    @GetMapping("/")
-    public List<Task> getTasksOfCurrentUser(@RequestParam Long id) {
-        return taskService.getAllTasksOfCurrentUser(id);
+    @GetMapping
+    public List<Task> getTasksOfCurrentUser(@RequestParam Long id,
+                                            @RequestParam(required = false, defaultValue = "asc") String order,
+                                            @RequestParam(required = false, defaultValue = "id") String sortBy,
+                                            @RequestParam(required = false, defaultValue = "0") int offset,
+                                            @RequestParam(required = false, defaultValue = "50") int pageSize) {
+        return taskService.getAllTasksOfCurrentUser(id, order, sortBy, offset, pageSize);
     }
 
     @CrossOrigin(origins = "http://localhost:3000")

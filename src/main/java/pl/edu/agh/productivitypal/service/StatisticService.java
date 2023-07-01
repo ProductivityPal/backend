@@ -11,6 +11,7 @@ import pl.edu.agh.productivitypal.repository.CalendarTaskRepository;
 import pl.edu.agh.productivitypal.repository.TaskRepository;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -26,19 +27,38 @@ public class StatisticService {
         this.calendarTaskRepository = calendarTaskRepository;
     }
 
-    public DoneAndUndoneTaskDto getNumberOfDoneAndUndoneTask(Long id, LocalDate startDate) {
-        long doneTasks = 0;
-        long undoneTasks = 0;
+    public DoneAndUndoneTaskDto getDoneAndUndoneTask(Long id, LocalDate startDate) {
 
         List<CalendarTask> calendarTasks = calendarTaskRepository.findAllByUserIdAndGivenPeriodOfTime(id, startDate);
+//        List<Task> doneTasks =  calendarTasks.stream().map(CalendarTask::getTask).filter(Task::isCompleted).toList();
+        List<Task> allTasks =  calendarTasks.stream().map(CalendarTask::getTask).toList();
+        List<Task> doneTasks = new ArrayList<>();
+        List<Task> undoneTasks = new ArrayList<>();
 
-        List<Task> userTasks = calendarTasks.stream().map(CalendarTask::getTask).toList();
-        doneTasks = userTasks.stream().filter(Task::isCompleted).count();
-        undoneTasks = userTasks.size() - doneTasks;
+        for (Task task : allTasks){
+            if (task.isCompleted()){
+                doneTasks.add(task);
+            } else {
+                undoneTasks.add(task);
+            }
+        }
+
+        Long totalTimeEstimated = 0L;
+        Long totalCompletedTime = 0L;
+
+        for (Task task : allTasks){
+            totalTimeEstimated += task.getTimeEstimate() == null ? 0 : task.getTimeEstimate();
+            totalCompletedTime += task.getCompletionTime() == null ? 0 : task.getCompletionTime();
+        }
 
         return DoneAndUndoneTaskDto.builder()
-                .done(doneTasks)
-                .undone(undoneTasks)
+                .done(doneTasks.size())
+                .undone(undoneTasks.size())
+                .doneTasks(doneTasks)
+                .undoneTasks(undoneTasks)
+                .totalCompletedTime(totalCompletedTime)
+                .totalTimeEstimated(totalTimeEstimated)
                 .build();
     }
+
 }

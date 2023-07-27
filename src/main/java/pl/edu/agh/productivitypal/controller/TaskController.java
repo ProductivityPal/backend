@@ -43,7 +43,7 @@ public class TaskController {
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
-    @PostMapping("/")
+    @PostMapping
     @ResponseStatus(code = HttpStatus.CREATED)
     public Long addTask(@RequestBody Task task) {
         return taskService.addTask(task);

@@ -16,7 +16,7 @@ public class AppUserController {
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
-    @PostMapping("/")
+    @PostMapping
     public void addUser(@RequestBody AppUser appUser) {
         appUserService.addUser(appUser);
     }

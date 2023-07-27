@@ -22,7 +22,7 @@ public class CalendarController {
         return calendarService.getAllCalendars();
     }
 
-    @GetMapping("/")
+    @GetMapping
     public List<Calendar> getCalendarsOfCurrentUser(@RequestParam Long id) {
         return calendarService.getAllCalendarsOfCurrentUser(id);
     }
@@ -37,7 +37,7 @@ public class CalendarController {
         return calendarService.getCalendarTask(calendarId, taskId);
     }
 
-    @PostMapping("/")
+    @PostMapping
     public void addCalendar(@RequestBody Calendar calendar) {
         calendarService.addCalendar(calendar);
     }
@@ -66,6 +66,4 @@ public class CalendarController {
     public void deleteCalendarTask(@PathVariable Long calendarId, @PathVariable Long taskId) {
         calendarService.deleteCalendarTask(calendarId, taskId);
     }
-
-
 }

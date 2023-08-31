@@ -1,5 +1,6 @@
 package pl.edu.agh.productivitypal.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -21,7 +22,7 @@ import java.util.List;
 public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
     private String name;
     private String description;
     private int priority;
@@ -30,24 +31,27 @@ public class Task {
     @Enumerated(EnumType.STRING)
     private Likeliness likeliness;
     private LocalDate deadline;
+    @JsonProperty("time_estimate")
     private Long timeEstimate;
+    @JsonProperty("completion_time")
     private Long completionTime;
     private boolean isSubtask;
     private boolean isParent;
     private boolean isCompleted;
-    private Long parentId;
+    @JsonProperty("parent_id")
+    private Integer parentId;
 
     @Transient
     private double priorityScore;
 
     @ManyToOne
+    @JoinColumn(name = "app_user_id") // Wskazuje na kolumnę w tabeli task, która przechowuje klucz obcy do użytkownika
     private AppUser appUser;
-
 
     @OneToOne
     private Category category;
 
-    public Task(Long id, String name, String description, int priority, Difficulty difficulty, Likeliness likeliness, LocalDate deadline, Long timeEstimate, Long completionTime, boolean isSubtask, boolean isParent, boolean isCompleted, Long parentId) {
+    public Task(Integer id, String name, String description, int priority, Difficulty difficulty, Likeliness likeliness, LocalDate deadline, Long timeEstimate, Long completionTime, boolean isSubtask, boolean isParent, boolean isCompleted, Integer parentId) {
         this.id = id;
         this.name = name;
         this.description = description;

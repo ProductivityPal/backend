@@ -7,7 +7,7 @@ import pl.edu.agh.productivitypal.model.Calendar;
 import java.util.List;
 
 @Repository
-public interface CalendarRepository extends JpaRepository<Calendar, Long> {
+public interface CalendarRepository extends JpaRepository<Calendar, Integer> {
 
-    List<Calendar> findAllByAppUserId(Long id);
+    List<Calendar> findAllByAppUserId(Integer id);
 }

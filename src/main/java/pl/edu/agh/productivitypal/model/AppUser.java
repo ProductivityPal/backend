@@ -1,5 +1,6 @@
 package pl.edu.agh.productivitypal.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 import jakarta.persistence.*;
 import lombok.*;
@@ -21,8 +22,7 @@ import java.util.List;
 public class AppUser implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @JsonValue
-    private Long id;
+    private Integer id;
     private String username;
     private String password;
     private String email;

@@ -27,7 +27,7 @@ public class StatisticService {
         this.calendarTaskRepository = calendarTaskRepository;
     }
 
-    public DoneAndUndoneTaskDto getDoneAndUndoneTask(Long id, LocalDate startDate) {
+    public DoneAndUndoneTaskDto getDoneAndUndoneTask(Integer id, LocalDate startDate) {
 
         List<CalendarTask> calendarTasks = calendarTaskRepository.findAllByUserIdAndGivenPeriodOfTime(id, startDate);
 //        List<Task> doneTasks =  calendarTasks.stream().map(CalendarTask::getTask).filter(Task::isCompleted).toList();

@@ -23,17 +23,17 @@ public class CalendarController {
     }
 
     @GetMapping
-    public List<Calendar> getCalendarsOfCurrentUser(@RequestParam Long id) {
+    public List<Calendar> getCalendarsOfCurrentUser(@RequestParam Integer id) {
         return calendarService.getAllCalendarsOfCurrentUser(id);
     }
 
     @GetMapping("/{id}")
-    public List<CalendarTask> getCalendarTasks(@PathVariable Long id) {
+    public List<CalendarTask> getCalendarTasks(@PathVariable Integer id) {
         return calendarService.getCalendarTasks(id);
     }
 
     @GetMapping("/{calendarId}/task/{taskId}")
-    public CalendarTask getCalendarTask(@PathVariable Long calendarId, @PathVariable Long taskId) {
+    public CalendarTask getCalendarTask(@PathVariable Integer calendarId, @PathVariable Integer taskId) {
         return calendarService.getCalendarTask(calendarId, taskId);
     }
 
@@ -43,27 +43,27 @@ public class CalendarController {
     }
 
     @PostMapping("/task/{id}")
-    public void addTaskToCalendar(@RequestBody CalendarTask calendarTask, @PathVariable Long id) {
+    public void addTaskToCalendar(@RequestBody CalendarTask calendarTask, @PathVariable Integer id) {
         calendarService.addTaskToCalendar(calendarTask, id);
     }
 
     @PutMapping("/{id}")
-    public void updateCalendar(@RequestBody Calendar calendar, @PathVariable Long id) {
+    public void updateCalendar(@RequestBody Calendar calendar, @PathVariable Integer id) {
         calendarService.updateCalendar(calendar, id);
     }
 
     @PutMapping("{calendarId}/task/{taskId}")
-    public void updateCalendarTask(@RequestBody CalendarTask calendarTask, @PathVariable Long calendarId, @PathVariable Long taskId) {
+    public void updateCalendarTask(@RequestBody CalendarTask calendarTask, @PathVariable Integer calendarId, @PathVariable Integer taskId) {
         calendarService.updateCalendarTask(calendarTask, calendarId, taskId);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteCalendar(@PathVariable Long id) {
+    public void deleteCalendar(@PathVariable Integer id) {
         calendarService.deleteCalendar(id);
     }
 
     @DeleteMapping("/{calendarId}/task/{taskId}")
-    public void deleteCalendarTask(@PathVariable Long calendarId, @PathVariable Long taskId) {
+    public void deleteCalendarTask(@PathVariable Integer calendarId, @PathVariable Integer taskId) {
         calendarService.deleteCalendarTask(calendarId, taskId);
     }
 }

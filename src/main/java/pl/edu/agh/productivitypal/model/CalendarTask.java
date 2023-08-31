@@ -17,7 +17,7 @@ import java.time.LocalDate;
 public class CalendarTask{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     private LocalDate startDate;
     private LocalDate endDate;

@@ -23,7 +23,7 @@ public class AppUserController {
 
     @CrossOrigin(origins = "http://localhost:3000")
     @PutMapping("/energyLevel/{energyLevel}")
-    public void updateEnergyLevel(@PathVariable EnergyLevel energyLevel, @RequestParam Long id) {
+    public void updateEnergyLevel(@PathVariable EnergyLevel energyLevel, @RequestParam Integer id) {
         appUserService.updateEnergyLevel(id, energyLevel);
     }
 

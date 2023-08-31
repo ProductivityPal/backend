@@ -28,11 +28,11 @@ public class CalendarService {
         return calendarRepository.findAll();
     }
 
-    public List<Calendar> getAllCalendarsOfCurrentUser(Long id) {
+    public List<Calendar> getAllCalendarsOfCurrentUser(Integer id) {
         return calendarRepository.findAllByAppUserId(id);
     }
 
-    public List<CalendarTask> getCalendarTasks(Long id) {
+    public List<CalendarTask> getCalendarTasks(Integer id) {
         return calendarTaskRepository.findAllByCalendarId(id);
     }
 
@@ -40,7 +40,7 @@ public class CalendarService {
         calendarRepository.save(calendar);
     }
 
-    public void addTaskToCalendar(CalendarTask calendarTask, Long id) {
+    public void addTaskToCalendar(CalendarTask calendarTask, Integer id) {
         Task task = taskRepository.findById(id).orElseThrow();
         calendarTask.setTask(task);
         calendarTaskRepository.save(calendarTask);
@@ -48,7 +48,7 @@ public class CalendarService {
 
     }
 
-    public void updateCalendar(Calendar calendar, Long id) {
+    public void updateCalendar(Calendar calendar, Integer id) {
         Calendar calendarToUpdate = calendarRepository.findById(id).orElseThrow();
         if (calendar.getName() != null){
             calendarToUpdate.setName(calendar.getName());
@@ -56,7 +56,7 @@ public class CalendarService {
         calendarRepository.save(calendarToUpdate);
     }
 
-    public void updateCalendarTask(CalendarTask calendarTask, Long calendarId, Long taskId) {
+    public void updateCalendarTask(CalendarTask calendarTask, Integer calendarId, Integer taskId) {
         CalendarTask calendarTaskToUpdate = calendarTaskRepository.findByCalendarIdAndTaskId(calendarId, taskId);
         if (calendarTask.getTask() != null){
             calendarTaskToUpdate.setTask(calendarTask.getTask());
@@ -73,18 +73,18 @@ public class CalendarService {
         calendarTaskRepository.save(calendarTaskToUpdate);
     }
 
-    public void deleteCalendar(Long id) {
+    public void deleteCalendar(Integer id) {
         List<CalendarTask> calendarTasks = calendarTaskRepository.findAllByCalendarId(id);
         calendarTaskRepository.deleteAll(calendarTasks);
         calendarRepository.deleteById(id);
     }
 
-    public void deleteCalendarTask(Long calendarId, Long taskId) {
+    public void deleteCalendarTask(Integer calendarId, Integer taskId) {
         CalendarTask calendarTask = calendarTaskRepository.findByCalendarIdAndTaskId(calendarId, taskId);
         calendarTaskRepository.delete(calendarTask);
     }
 
-    public CalendarTask getCalendarTask(Long calendarId, Long taskId) {
+    public CalendarTask getCalendarTask(Integer calendarId, Integer taskId) {
         return calendarTaskRepository.findByCalendarIdAndTaskId(calendarId, taskId);
     }
 }

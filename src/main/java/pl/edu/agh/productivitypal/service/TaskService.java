@@ -30,7 +30,7 @@ public class TaskService {
         return taskRepository.findAll();
     }
 
-    public List<Task> getAllTasksOfCurrentUser(Long id, String order, String sortBy, int offset, int pageSize) {
+    public List<Task> getAllTasksOfCurrentUser(Integer id, String order, String sortBy, int offset, int pageSize) {
 
         return taskRepository
                 .findAll(PageRequest.of(offset, pageSize, Sort.by(Sort.Direction.fromString(order.toUpperCase()), sortBy)))
@@ -40,7 +40,7 @@ public class TaskService {
     }
 
 
-    public List<Task> getTasksSortedByAlgosort(Long id) {
+    public List<Task> getTasksSortedByAlgosort(Integer id) {
 
         List<Task> tasks = taskRepository
                 .findAll()
@@ -61,7 +61,7 @@ public class TaskService {
 
         tasks.sort((a, b) -> Double.compare(b.getPriorityScore(), a.getPriorityScore()));
 
-        AppUser appUser = appUserRepository.findById(1L).orElseThrow();
+        AppUser appUser = appUserRepository.findById(1).orElseThrow();
 
 
         List<Task> sortedTasks = tasks
@@ -81,12 +81,12 @@ public class TaskService {
 
     }
 
-    public Long addTask(Task task) {
+    public Integer addTask(Task task) {
         taskRepository.save(task);
         return task.getId();
     }
 
-    public Task getTaskById(Long id) {
+    public Task getTaskById(Integer id) {
         return taskRepository.findById(id).orElseThrow();
     }
 
@@ -140,14 +140,14 @@ public class TaskService {
         return taskToUpdate;
     }
 
-    public Task updateTask(Long id, Task task){
+    public Task updateTask(Integer id, Task task){
         Task taskToUpdate = taskRepository.findById(id).orElseThrow();
         taskToUpdate = updateTaskData(task, taskToUpdate);
         taskRepository.save(taskToUpdate);
         return taskToUpdate;
     }
 
-    public Long addSubtask(Long id, Task subtask) {
+    public Integer addSubtask(Integer id, Task subtask) {
         Task parentTask = taskRepository.findById(id).orElseThrow();
         parentTask.setParent(true);
         subtask.setSubtask(true);
@@ -156,7 +156,7 @@ public class TaskService {
         return subtask.getId();
     }
 
-    public void deleteTask(Long id) {
+    public void deleteTask(Integer id) {
         Task taskToDelete = taskRepository.findById(id).orElseThrow();
         if (taskToDelete.isParent()) {
             List<Task> subtasks = taskRepository.findAllByParentId(id);
@@ -168,7 +168,7 @@ public class TaskService {
         taskRepository.deleteById(id);
     }
 
-    public void deleteTaskAndAllSubtask(Long id) {
+    public void deleteTaskAndAllSubtask(Integer id) {
         Task taskToDelete = taskRepository.findById(id).orElseThrow();
         if (taskToDelete.isParent()) {
             List<Task> subtasks = taskRepository.findAllByParentId(id);
@@ -179,7 +179,7 @@ public class TaskService {
         taskRepository.deleteById(id);
     }
 
-    public void deleteSubtask(Long taskId, Long subtaskId) {
+    public void deleteSubtask(Integer taskId, Integer subtaskId) {
         Task taskToDelete = taskRepository.findById(taskId).orElseThrow();
         List<Task> subtasks = taskRepository.findAllByParentId(taskId);
         if (subtasks.size() == 1) {
@@ -188,15 +188,15 @@ public class TaskService {
         taskRepository.deleteById(subtaskId);
     }
 
-    public List<Task> getSubtasks(Long id, Long parentId){
+    public List<Task> getSubtasks(Integer id, Integer parentId){
         return taskRepository.findAllByParentIdAndAndAppUserId(parentId, id);
     }
 
-    public Task getSubtask(Long taskId, Long subtaskId){
+    public Task getSubtask(Integer taskId, Integer subtaskId){
         return taskRepository.findByIdAndParentId(subtaskId, taskId);
     }
 
-    public Task updateSubtask(Long taskId, Long subtaskId, Task task){
+    public Task updateSubtask(Integer taskId, Integer subtaskId, Task task){
         Task subtaskToUpdate = taskRepository.findByIdAndParentId(subtaskId, taskId);
         subtaskToUpdate = updateTaskData(task, subtaskToUpdate);
         taskRepository.save(subtaskToUpdate);

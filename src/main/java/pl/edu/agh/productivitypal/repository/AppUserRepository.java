@@ -7,7 +7,7 @@ import pl.edu.agh.productivitypal.model.AppUser;
 import java.util.Optional;
 
 @Repository
-public interface AppUserRepository extends JpaRepository<AppUser, Long> {
-    Optional<AppUser> findById(Long id);
+public interface AppUserRepository extends JpaRepository<AppUser, Integer> {
+    Optional<AppUser> findById(Integer id);
     Optional<AppUser> findByEmail(String email);
 }

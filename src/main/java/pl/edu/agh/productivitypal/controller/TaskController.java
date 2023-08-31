@@ -28,7 +28,7 @@ public class TaskController {
 
     @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping
-    public List<Task> getTasksOfCurrentUser(@RequestParam Long id,
+    public List<Task> getTasksOfCurrentUser(@RequestParam Integer id,
                                             @RequestParam(required = false, defaultValue = "asc") String order,
                                             @RequestParam(required = false, defaultValue = "id") String sortBy,
                                             @RequestParam(required = false, defaultValue = "0") int offset,
@@ -38,68 +38,67 @@ public class TaskController {
 
     @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/algosort")
-    public List<Task> getTasksSortedByAlgosort(@RequestParam Long id) {
+    public List<Task> getTasksSortedByAlgosort(@RequestParam Integer id) {
         return taskService.getTasksSortedByAlgosort(id);
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping
-    @ResponseStatus(code = HttpStatus.CREATED)
-    public Long addTask(@RequestBody Task task) {
+    public Integer addTask(@RequestBody Task task) {
         return taskService.addTask(task);
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/{id}")
-    public Task getTaskById(@PathVariable Long id) {
+    public Task getTaskById(@PathVariable Integer id) {
         return taskService.getTaskById(id);
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
     @PutMapping("/{id}")
-    public Task updateTask(@PathVariable Long id, @RequestBody Task task) {
+    public Task updateTask(@PathVariable Integer id, @RequestBody Task task) {
         return taskService.updateTask(id, task);
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/{id}/subtask")
-    public Long addSubtask(@PathVariable Long id, @RequestBody Task task) {
+    public Integer addSubtask(@PathVariable Integer id, @RequestBody Task task) {
         return taskService.addSubtask(id, task);
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
     @DeleteMapping("/{id}")
-    public void deleteTask(@PathVariable Long id) {
+    public void deleteTask(@PathVariable Integer id) {
         taskService.deleteTask(id);
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
     @DeleteMapping("/{id}/subtask")
-    public void deleteTaskAndAllSubtask(@PathVariable Long id) {
+    public void deleteTaskAndAllSubtask(@PathVariable Integer id) {
         taskService.deleteTaskAndAllSubtask(id);
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
     @DeleteMapping("/{taskId}/subtask/{subtaskId}")
-    public void deleteTask(@PathVariable Long taskId, @PathVariable Long subtaskId){
+    public void deleteTask(@PathVariable Integer taskId, @PathVariable Integer subtaskId){
         taskService.deleteSubtask(taskId, subtaskId);
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/{id}/subtask")
-    public List<Task> getSubtasks(@PathVariable Long id, @RequestParam Long userId) {
+    public List<Task> getSubtasks(@PathVariable Integer id, @RequestParam Integer userId) {
         return taskService.getSubtasks(userId, id);
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/{taskId}/subtask/{subtaskId}")
-    public Task getSubtask(@PathVariable Long taskId, @PathVariable Long subtaskId){
+    public Task getSubtask(@PathVariable Integer taskId, @PathVariable Integer subtaskId){
         return taskService.getSubtask(taskId, subtaskId);
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
     @PutMapping("/{taskId}/subtask/{subtaskId}")
-    public Task updateSubtask(@PathVariable Long taskId, @PathVariable Long subtaskId, @RequestBody Task task){
+    public Task updateSubtask(@PathVariable Integer taskId, @PathVariable Integer subtaskId, @RequestBody Task task){
         return taskService.updateSubtask(taskId, subtaskId, task);
     }
 }

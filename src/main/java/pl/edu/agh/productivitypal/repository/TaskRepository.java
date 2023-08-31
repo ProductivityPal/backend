@@ -10,12 +10,12 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Repository
-public interface TaskRepository extends JpaRepository<Task, Long> {
-    List<Task> findAllByParentId(Long id);
+public interface TaskRepository extends JpaRepository<Task, Integer> {
+    List<Task> findAllByParentId(Integer id);
 
-    List<Task> findAllByParentIdAndAndAppUserId(Long parentId, Long id);
+    List<Task> findAllByParentIdAndAndAppUserId(Integer parentId, Integer id);
 
-    Task findByIdAndParentId(Long id, Long parentId);
+    Task findByIdAndParentId(Integer id, Integer parentId);
 
     List<Task> findAllByAppUser(AppUser appUser);
 

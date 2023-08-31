@@ -18,7 +18,7 @@ public class AppUserService {
         appUserRepository.save(appUser);
     }
 
-    public void updateEnergyLevel(Long id, EnergyLevel energyLevel){
+    public void updateEnergyLevel(Integer id, EnergyLevel energyLevel){
         AppUser appUser = appUserRepository.findById(id).orElseThrow();
         if (energyLevel != null){
             appUser.setEnergyLevel(energyLevel);

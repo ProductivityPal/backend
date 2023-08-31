@@ -19,7 +19,7 @@ public class StatisticController {
     }
 
     @GetMapping("/doneAndUndoneTasks")
-    public DoneAndUndoneTaskDto getDoneAndUndoneTask(@RequestParam Long id,
+    public DoneAndUndoneTaskDto getDoneAndUndoneTask(@RequestParam Integer id,
                                                      @RequestParam LocalDate startDate){
         return statisticService.getDoneAndUndoneTask(id, startDate);
     }

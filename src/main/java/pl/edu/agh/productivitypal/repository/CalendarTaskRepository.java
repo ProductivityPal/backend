@@ -11,10 +11,10 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Repository
-public interface CalendarTaskRepository extends JpaRepository<CalendarTask, Long> {
-    List<CalendarTask> findAllByCalendarId(Long id);
+public interface CalendarTaskRepository extends JpaRepository<CalendarTask, Integer> {
+    List<CalendarTask> findAllByCalendarId(Integer id);
 
-    CalendarTask findByCalendarIdAndTaskId(Long calendarId, Long taskId);
+    CalendarTask findByCalendarIdAndTaskId(Integer calendarId, Integer taskId);
     @Query(value = "SELECT ct.* " +
         "FROM calendar_task ct " +
         "JOIN task t ON ct.task_id = t.id " +
@@ -22,6 +22,6 @@ public interface CalendarTaskRepository extends JpaRepository<CalendarTask, Long
         "WHERE ct.start_date >= :startDate " +
         "AND (ct.end_date IS NULL OR ct.end_date <= CURRENT_TIMESTAMP) " +
         "AND au.id = :userId ", nativeQuery = true)
-    List<CalendarTask> findAllByUserIdAndGivenPeriodOfTime(@Param("userId") Long userId,
+    List<CalendarTask> findAllByUserIdAndGivenPeriodOfTime(@Param("userId") Integer userId,
                                                            @Param("startDate") LocalDate startDate);
 }

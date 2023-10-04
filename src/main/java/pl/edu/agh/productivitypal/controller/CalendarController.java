@@ -1,11 +1,14 @@
 package pl.edu.agh.productivitypal.controller;
 
 import org.springframework.web.bind.annotation.*;
+import pl.edu.agh.productivitypal.config.Jwt;
 import pl.edu.agh.productivitypal.model.Calendar;
 import pl.edu.agh.productivitypal.model.CalendarTask;
 import pl.edu.agh.productivitypal.service.CalendarService;
 
 import java.util.List;
+
+import static pl.edu.agh.productivitypal.config.SecurityConstant.AUTHORIZATION_HEADER;
 
 @RestController
 @RequestMapping(value = "/calendar")
@@ -23,8 +26,8 @@ public class CalendarController {
     }
 
     @GetMapping
-    public List<Calendar> getCalendarsOfCurrentUser(@RequestParam Integer id) {
-        return calendarService.getAllCalendarsOfCurrentUser(id);
+    public List<Calendar> getCalendarsOfCurrentUser(@RequestHeader(AUTHORIZATION_HEADER) Jwt jwt) {
+        return calendarService.getAllCalendarsOfCurrentUser(jwt);
     }
 
     @GetMapping("/{id}")

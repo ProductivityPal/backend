@@ -3,11 +3,14 @@ package pl.edu.agh.productivitypal.controller;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import pl.edu.agh.productivitypal.config.Jwt;
 import pl.edu.agh.productivitypal.model.Task;
 import pl.edu.agh.productivitypal.enums.EnergyLevel;
 import pl.edu.agh.productivitypal.service.TaskService;
 
 import java.util.List;
+
+import static pl.edu.agh.productivitypal.config.SecurityConstant.AUTHORIZATION_HEADER;
 
 @RestController
 @RequestMapping(value = "/task")
@@ -28,18 +31,18 @@ public class TaskController {
 
     @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping
-    public List<Task> getTasksOfCurrentUser(@RequestParam Integer id,
+    public List<Task> getTasksOfCurrentUser(@RequestHeader(AUTHORIZATION_HEADER) Jwt jwt,
                                             @RequestParam(required = false, defaultValue = "asc") String order,
                                             @RequestParam(required = false, defaultValue = "id") String sortBy,
                                             @RequestParam(required = false, defaultValue = "0") int offset,
                                             @RequestParam(required = false, defaultValue = "50") int pageSize) {
-        return taskService.getAllTasksOfCurrentUser(id, order, sortBy, offset, pageSize);
+        return taskService.getAllTasksOfCurrentUser(jwt, order, sortBy, offset, pageSize);
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/algosort")
-    public List<Task> getTasksSortedByAlgosort(@RequestParam Integer id) {
-        return taskService.getTasksSortedByAlgosort(id);
+    public List<Task> getTasksSortedByAlgosort(@RequestHeader(AUTHORIZATION_HEADER) Jwt jwt) {
+        return taskService.getTasksSortedByAlgosort(jwt);
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
@@ -86,8 +89,8 @@ public class TaskController {
 
     @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/{id}/subtask")
-    public List<Task> getSubtasks(@PathVariable Integer id, @RequestParam Integer userId) {
-        return taskService.getSubtasks(userId, id);
+    public List<Task> getSubtasks(@PathVariable Integer id, @RequestHeader(AUTHORIZATION_HEADER) Jwt jwt) {
+        return taskService.getSubtasks(jwt, id);
     }
 
     @CrossOrigin(origins = "http://localhost:3000")

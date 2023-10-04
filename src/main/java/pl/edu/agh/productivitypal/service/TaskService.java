@@ -3,6 +3,7 @@ package pl.edu.agh.productivitypal.service;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import pl.edu.agh.productivitypal.config.Jwt;
 import pl.edu.agh.productivitypal.enums.EnergyLevel;
 import pl.edu.agh.productivitypal.enums.Weight;
 import pl.edu.agh.productivitypal.model.AppUser;
@@ -21,31 +22,34 @@ public class TaskService {
 
     private final TaskRepository taskRepository;
     private final AppUserRepository appUserRepository;
+    private final AppUserService appUserService;
 
-    public TaskService(TaskRepository taskRepository, AppUserRepository appUserRepository) {
+    public TaskService(TaskRepository taskRepository, AppUserRepository appUserRepository, AppUserService appUserService) {
         this.taskRepository = taskRepository;
         this.appUserRepository = appUserRepository;
+        this.appUserService = appUserService;
     }
     public List<Task> getAllTasks() {
         return taskRepository.findAll();
     }
 
-    public List<Task> getAllTasksOfCurrentUser(Integer id, String order, String sortBy, int offset, int pageSize) {
-
+    public List<Task> getAllTasksOfCurrentUser(Jwt jwt, String order, String sortBy, int offset, int pageSize) {
+        AppUser currentUser = appUserService.getUserByEmail(jwt);
         return taskRepository
                 .findAll(PageRequest.of(offset, pageSize, Sort.by(Sort.Direction.fromString(order.toUpperCase()), sortBy)))
                 .stream()
-                .filter(task -> task.getAppUser().getId().equals(id))
+                .filter(task -> task.getAppUser().getId().equals(currentUser.getId()))
                 .collect(Collectors.toList());
     }
 
 
-    public List<Task> getTasksSortedByAlgosort(Integer id) {
+    public List<Task> getTasksSortedByAlgosort(Jwt jwt) {
+        AppUser currentUser = appUserService.getUserByEmail(jwt);
 
         List<Task> tasks = taskRepository
                 .findAll()
                 .stream()
-                .filter(task -> task.getAppUser().getId().equals(id))
+                .filter(task -> task.getAppUser().getId().equals(currentUser.getId()))
                 .collect(Collectors.toList());;
 
         LocalDate now = LocalDate.now();
@@ -188,8 +192,9 @@ public class TaskService {
         taskRepository.deleteById(subtaskId);
     }
 
-    public List<Task> getSubtasks(Integer id, Integer parentId){
-        return taskRepository.findAllByParentIdAndAndAppUserId(parentId, id);
+    public List<Task> getSubtasks(Jwt jwt, Integer parentId){
+        AppUser currentUser = appUserService.getUserByEmail(jwt);
+        return taskRepository.findAllByParentIdAndAndAppUserId(parentId, currentUser.getId());
     }
 
     public Task getSubtask(Integer taskId, Integer subtaskId){

@@ -1,6 +1,8 @@
 package pl.edu.agh.productivitypal.service;
 
 import org.springframework.stereotype.Service;
+import pl.edu.agh.productivitypal.config.Jwt;
+import pl.edu.agh.productivitypal.model.AppUser;
 import pl.edu.agh.productivitypal.model.Calendar;
 import pl.edu.agh.productivitypal.model.CalendarTask;
 import pl.edu.agh.productivitypal.model.Task;
@@ -17,19 +19,22 @@ public class CalendarService {
     private final CalendarTaskRepository calendarTaskRepository;
 
     private final TaskRepository taskRepository;
+    private final AppUserService appUserService;
 
-    public CalendarService(CalendarRepository calendarRepository, CalendarTaskRepository calendarTaskRepository, TaskRepository taskRepository) {
+    public CalendarService(CalendarRepository calendarRepository, CalendarTaskRepository calendarTaskRepository, TaskRepository taskRepository, AppUserService appUserService) {
         this.calendarRepository = calendarRepository;
         this.calendarTaskRepository = calendarTaskRepository;
         this.taskRepository = taskRepository;
+        this.appUserService = appUserService;
     }
 
     public List<Calendar> getAllCalendars() {
         return calendarRepository.findAll();
     }
 
-    public List<Calendar> getAllCalendarsOfCurrentUser(Integer id) {
-        return calendarRepository.findAllByAppUserId(id);
+    public List<Calendar> getAllCalendarsOfCurrentUser(Jwt jwt) {
+        AppUser currentUser = appUserService.getUserByEmail(jwt);
+        return calendarRepository.findAllByAppUserId(currentUser.getId());
     }
 
     public List<CalendarTask> getCalendarTasks(Integer id) {
@@ -44,8 +49,6 @@ public class CalendarService {
         Task task = taskRepository.findById(id).orElseThrow();
         calendarTask.setTask(task);
         calendarTaskRepository.save(calendarTask);
-
-
     }
 
     public void updateCalendar(Calendar calendar, Integer id) {

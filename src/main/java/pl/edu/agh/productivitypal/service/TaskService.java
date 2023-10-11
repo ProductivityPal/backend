@@ -1,5 +1,6 @@
 package pl.edu.agh.productivitypal.service;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -16,7 +17,7 @@ import java.time.Period;
 import java.util.List;
 import java.util.stream.Collectors;
 
-
+@Slf4j
 @Service
 public class TaskService {
 
@@ -35,6 +36,7 @@ public class TaskService {
 
     public List<Task> getAllTasksOfCurrentUser(Jwt jwt, String order, String sortBy, int offset, int pageSize) {
         AppUser currentUser = appUserService.getUserByEmail(jwt);
+        log.info("Current user: id {} name {}", currentUser.getId(), currentUser.getUsername());
         return taskRepository
                 .findAll(PageRequest.of(offset, pageSize, Sort.by(Sort.Direction.fromString(order.toUpperCase()), sortBy)))
                 .stream()
@@ -45,6 +47,7 @@ public class TaskService {
 
     public List<Task> getTasksSortedByAlgosort(Jwt jwt) {
         AppUser currentUser = appUserService.getUserByEmail(jwt);
+        log.info("Current user: id {} name {}", currentUser.getId(), currentUser.getUsername());
 
         List<Task> tasks = taskRepository
                 .findAll()
@@ -146,6 +149,7 @@ public class TaskService {
 
     public Task updateTask(Integer id, Task task){
         Task taskToUpdate = taskRepository.findById(id).orElseThrow();
+        log.info("Task to update: {} {}", taskToUpdate.getId(), taskToUpdate.getName());
         taskToUpdate = updateTaskData(task, taskToUpdate);
         taskRepository.save(taskToUpdate);
         return taskToUpdate;
@@ -153,6 +157,7 @@ public class TaskService {
 
     public Integer addSubtask(Integer id, Task subtask) {
         Task parentTask = taskRepository.findById(id).orElseThrow();
+        log.info("Found parent task: {} {}", parentTask.getId(), parentTask.getName());
         parentTask.setParent(true);
         subtask.setSubtask(true);
         subtask.setParentId(id);
@@ -162,6 +167,7 @@ public class TaskService {
 
     public void deleteTask(Integer id) {
         Task taskToDelete = taskRepository.findById(id).orElseThrow();
+        log.info("Task to delete: {} {}", taskToDelete.getId(), taskToDelete.getName());
         if (taskToDelete.isParent()) {
             List<Task> subtasks = taskRepository.findAllByParentId(id);
             for (Task subtask : subtasks) {
@@ -174,6 +180,7 @@ public class TaskService {
 
     public void deleteTaskAndAllSubtask(Integer id) {
         Task taskToDelete = taskRepository.findById(id).orElseThrow();
+        log.info("Task to delete: {} {}", taskToDelete.getId(), taskToDelete.getName());
         if (taskToDelete.isParent()) {
             List<Task> subtasks = taskRepository.findAllByParentId(id);
             for (Task subtask : subtasks) {
@@ -194,6 +201,7 @@ public class TaskService {
 
     public List<Task> getSubtasks(Jwt jwt, Integer parentId){
         AppUser currentUser = appUserService.getUserByEmail(jwt);
+        log.info("Current user: {} {}", currentUser.getId(), currentUser.getUsername());
         return taskRepository.findAllByParentIdAndAndAppUserId(parentId, currentUser.getId());
     }
 

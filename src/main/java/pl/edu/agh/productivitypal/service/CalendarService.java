@@ -1,5 +1,6 @@
 package pl.edu.agh.productivitypal.service;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import pl.edu.agh.productivitypal.config.Jwt;
 import pl.edu.agh.productivitypal.model.AppUser;
@@ -12,6 +13,7 @@ import pl.edu.agh.productivitypal.repository.TaskRepository;
 
 import java.util.List;
 
+@Slf4j
 @Service
 public class CalendarService {
 
@@ -34,6 +36,7 @@ public class CalendarService {
 
     public List<Calendar> getAllCalendarsOfCurrentUser(Jwt jwt) {
         AppUser currentUser = appUserService.getUserByEmail(jwt);
+        log.info("Current user: id {} name {}", currentUser.getId(), currentUser.getUsername());
         return calendarRepository.findAllByAppUserId(currentUser.getId());
     }
 
@@ -48,6 +51,7 @@ public class CalendarService {
     public void addTaskToCalendar(CalendarTask calendarTask, Integer id) {
         Task task = taskRepository.findById(id).orElseThrow();
         calendarTask.setTask(task);
+        log.info("Calendar task {} was added based on task {} {} ", calendarTask.getId(), task.getId(), task.getName());
         calendarTaskRepository.save(calendarTask);
     }
 

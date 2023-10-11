@@ -9,12 +9,13 @@ import pl.edu.agh.productivitypal.model.Task;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface CalendarTaskRepository extends JpaRepository<CalendarTask, Integer> {
     List<CalendarTask> findAllByCalendarId(Integer id);
 
-    CalendarTask findByCalendarIdAndTaskId(Integer calendarId, Integer taskId);
+    Optional<CalendarTask> findByCalendarIdAndTaskId(Integer calendarId, Integer taskId);
     @Query(value = "SELECT ct.* " +
         "FROM calendar_task ct " +
         "JOIN task t ON ct.task_id = t.id " +

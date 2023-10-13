@@ -11,6 +11,7 @@ import pl.edu.agh.productivitypal.repository.CalendarTaskRepository;
 import pl.edu.agh.productivitypal.repository.TaskRepository;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,7 +28,7 @@ public class StatisticService {
         this.calendarTaskRepository = calendarTaskRepository;
     }
 
-    public DoneAndUndoneTaskDto getDoneAndUndoneTask(Integer id, LocalDate startDate) {
+    public DoneAndUndoneTaskDto getDoneAndUndoneTask(Integer id, LocalDateTime startDate) {
 
         List<CalendarTask> calendarTasks = calendarTaskRepository.findAllByUserIdAndGivenPeriodOfTime(id, startDate);
 //        List<Task> doneTasks =  calendarTasks.stream().map(CalendarTask::getTask).filter(Task::isCompleted).toList();

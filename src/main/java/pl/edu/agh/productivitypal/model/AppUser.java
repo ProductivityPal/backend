@@ -3,6 +3,7 @@ package pl.edu.agh.productivitypal.model;
 import com.fasterxml.jackson.annotation.JsonValue;
 import jakarta.persistence.*;
 import lombok.*;
+import org.joda.time.DateTime;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -18,7 +19,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class AppUser implements UserDetails {
+public class AppUser implements UserDetails  {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonValue
@@ -26,6 +27,7 @@ public class AppUser implements UserDetails {
     private String username;
     private String password;
     private String email;
+    private boolean isEmailVerified;
     @Enumerated(EnumType.STRING)
     private EnergyLevel energyLevel;
 
@@ -38,8 +40,25 @@ public class AppUser implements UserDetails {
     @OneToMany(mappedBy = "appUser")
     private List<Calendar> calendar;
 
+    private DateTime created;
+    private DateTime updated;
+
+    public void setIsEmailVerified(boolean isEmailVerified) {
+        this.isEmailVerified = isEmailVerified;
+    }
     public EnergyLevel getEnergyLevel() {
         return energyLevel;
+    }
+
+    @PrePersist
+    public void prePersist() {
+        created = new DateTime();
+        updated = new DateTime();
+    }
+
+    @PreUpdate
+    public void preUpdate() {
+        updated = new DateTime();
     }
 
     @Override

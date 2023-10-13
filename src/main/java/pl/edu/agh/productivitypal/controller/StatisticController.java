@@ -1,9 +1,6 @@
 package pl.edu.agh.productivitypal.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import pl.edu.agh.productivitypal.dto.DoneAndUndoneTaskDto;
 import pl.edu.agh.productivitypal.service.StatisticService;
 
@@ -18,6 +15,7 @@ public class StatisticController {
         this.statisticService = statisticService;
     }
 
+    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/doneAndUndoneTasks")
     public DoneAndUndoneTaskDto getDoneAndUndoneTask(@RequestParam Integer id,
                                                      @RequestParam LocalDate startDate){

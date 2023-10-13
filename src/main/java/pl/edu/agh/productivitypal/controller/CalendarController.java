@@ -20,51 +20,61 @@ public class CalendarController {
         this.calendarService = calendarService;
     }
 
+    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/all")
     public List<Calendar> getCalendars() {
         return calendarService.getAllCalendars();
     }
 
+    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping
     public List<Calendar> getCalendarsOfCurrentUser(@RequestHeader(AUTHORIZATION_HEADER) Jwt jwt) {
         return calendarService.getAllCalendarsOfCurrentUser(jwt);
     }
 
+    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/{id}")
     public List<CalendarTask> getCalendarTasks(@PathVariable Integer id) {
         return calendarService.getCalendarTasks(id);
     }
 
+    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/{calendarId}/task/{taskId}")
     public CalendarTask getCalendarTask(@PathVariable Integer calendarId, @PathVariable Integer taskId) {
         return calendarService.getCalendarTask(calendarId, taskId);
     }
 
+    @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping
     public void addCalendar(@RequestBody Calendar calendar) {
         calendarService.addCalendar(calendar);
     }
 
+    @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/task/{id}")
     public void addTaskToCalendar(@RequestBody CalendarTask calendarTask, @PathVariable Integer id) {
         calendarService.addTaskToCalendar(calendarTask, id);
     }
 
+    @CrossOrigin(origins = "http://localhost:3000")
     @PutMapping("/{id}")
     public void updateCalendar(@RequestBody Calendar calendar, @PathVariable Integer id) {
         calendarService.updateCalendar(calendar, id);
     }
 
+    @CrossOrigin(origins = "http://localhost:3000")
     @PutMapping("{calendarId}/task/{taskId}")
     public void updateCalendarTask(@RequestBody CalendarTask calendarTask, @PathVariable Integer calendarId, @PathVariable Integer taskId) {
         calendarService.updateCalendarTask(calendarTask, calendarId, taskId);
     }
 
+    @CrossOrigin(origins = "http://localhost:3000")
     @DeleteMapping("/{id}")
     public void deleteCalendar(@PathVariable Integer id) {
         calendarService.deleteCalendar(id);
     }
 
+    @CrossOrigin(origins = "http://localhost:3000")
     @DeleteMapping("/{calendarId}/task/{taskId}")
     public void deleteCalendarTask(@PathVariable Integer calendarId, @PathVariable Integer taskId) {
         calendarService.deleteCalendarTask(calendarId, taskId);

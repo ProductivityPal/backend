@@ -45,6 +45,7 @@ public class CalendarController {
         calendarService.addCalendar(calendar);
     }
 
+    @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/task/{id}")
     public void addTaskToCalendar(@RequestBody CalendarTask calendarTask, @PathVariable Integer id) {
         calendarService.addTaskToCalendar(calendarTask, id);

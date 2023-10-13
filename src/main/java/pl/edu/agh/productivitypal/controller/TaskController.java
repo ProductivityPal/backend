@@ -29,7 +29,7 @@ public class TaskController {
         return taskService.getAllTasks();
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
+    @CrossOrigin(origins = "http://localhost:3000", methods = RequestMethod.GET, allowedHeaders = "Authorization")
     @GetMapping
     public List<Task> getTasksOfCurrentUser(@RequestHeader(AUTHORIZATION_HEADER) Jwt jwt,
                                             @RequestParam(required = false, defaultValue = "asc") String order,

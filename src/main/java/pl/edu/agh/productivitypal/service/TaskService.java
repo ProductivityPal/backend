@@ -1,5 +1,7 @@
 package pl.edu.agh.productivitypal.service;
 
+import jakarta.persistence.EntityNotFoundException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -16,7 +18,7 @@ import java.time.Period;
 import java.util.List;
 import java.util.stream.Collectors;
 
-
+@Slf4j
 @Service
 public class TaskService {
 
@@ -35,6 +37,7 @@ public class TaskService {
 
     public List<Task> getAllTasksOfCurrentUser(Jwt jwt, String order, String sortBy, int offset, int pageSize) {
         AppUser currentUser = appUserService.getUserByEmail(jwt);
+        log.info("Current user: id {} name {}", currentUser.getId(), currentUser.getUsername());
         return taskRepository
                 .findAll(PageRequest.of(offset, pageSize, Sort.by(Sort.Direction.fromString(order.toUpperCase()), sortBy)))
                 .stream()
@@ -45,6 +48,7 @@ public class TaskService {
 
     public List<Task> getTasksSortedByAlgosort(Jwt jwt) {
         AppUser currentUser = appUserService.getUserByEmail(jwt);
+        log.info("Current user: id {} name {}", currentUser.getId(), currentUser.getUsername());
 
         List<Task> tasks = taskRepository
                 .findAll()
@@ -65,15 +69,12 @@ public class TaskService {
 
         tasks.sort((a, b) -> Double.compare(b.getPriorityScore(), a.getPriorityScore()));
 
-        AppUser appUser = appUserRepository.findById(1).orElseThrow();
-
-
         List<Task> sortedTasks = tasks
             .stream()
             .filter(task -> {
-                if (appUser.getEnergyLevel().equals(EnergyLevel.LOW)) {
+                if (currentUser.getEnergyLevel().equals(EnergyLevel.LOW)) {
                     return task.getDifficulty().getValue() <= 3 || task.getLikeliness().getValue() >= 4;
-                } else if (appUser.getEnergyLevel().equals(EnergyLevel.MEDIUM)) {
+                } else if (currentUser.getEnergyLevel().equals(EnergyLevel.MEDIUM)) {
                     return task.getDifficulty().getValue() <= 4 || task.getLikeliness().getValue() >= 3;
                 } else {
                     return true;
@@ -82,7 +83,6 @@ public class TaskService {
             .collect(Collectors.toList());
 
         return sortedTasks;
-
     }
 
     public Integer addTask(Task task) {
@@ -91,7 +91,7 @@ public class TaskService {
     }
 
     public Task getTaskById(Integer id) {
-        return taskRepository.findById(id).orElseThrow();
+        return taskRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Task with id: " + id +  "not found"));
     }
 
     private Task updateTaskData(Task task, Task taskToUpdate){
@@ -145,14 +145,16 @@ public class TaskService {
     }
 
     public Task updateTask(Integer id, Task task){
-        Task taskToUpdate = taskRepository.findById(id).orElseThrow();
+        Task taskToUpdate = taskRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Task with id: " + id +  "not found"));
+        log.info("Task to update: {} {}", taskToUpdate.getId(), taskToUpdate.getName());
         taskToUpdate = updateTaskData(task, taskToUpdate);
         taskRepository.save(taskToUpdate);
         return taskToUpdate;
     }
 
     public Integer addSubtask(Integer id, Task subtask) {
-        Task parentTask = taskRepository.findById(id).orElseThrow();
+        Task parentTask = taskRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Parent task with id: " + id +  "not found"));
+        log.info("Found parent task: {} {}", parentTask.getId(), parentTask.getName());
         parentTask.setParent(true);
         subtask.setSubtask(true);
         subtask.setParentId(id);
@@ -161,7 +163,8 @@ public class TaskService {
     }
 
     public void deleteTask(Integer id) {
-        Task taskToDelete = taskRepository.findById(id).orElseThrow();
+        Task taskToDelete = taskRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Task with id: " + id +  "not found"));
+        log.info("Task to delete: {} {}", taskToDelete.getId(), taskToDelete.getName());
         if (taskToDelete.isParent()) {
             List<Task> subtasks = taskRepository.findAllByParentId(id);
             for (Task subtask : subtasks) {
@@ -173,7 +176,8 @@ public class TaskService {
     }
 
     public void deleteTaskAndAllSubtask(Integer id) {
-        Task taskToDelete = taskRepository.findById(id).orElseThrow();
+        Task taskToDelete = taskRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Task with id: " + id +  "not found"));
+        log.info("Task to delete: {} {}", taskToDelete.getId(), taskToDelete.getName());
         if (taskToDelete.isParent()) {
             List<Task> subtasks = taskRepository.findAllByParentId(id);
             for (Task subtask : subtasks) {
@@ -184,7 +188,7 @@ public class TaskService {
     }
 
     public void deleteSubtask(Integer taskId, Integer subtaskId) {
-        Task taskToDelete = taskRepository.findById(taskId).orElseThrow();
+        Task taskToDelete = taskRepository.findById(taskId).orElseThrow(() -> new EntityNotFoundException("Task with id: " + taskId +  "not found"));
         List<Task> subtasks = taskRepository.findAllByParentId(taskId);
         if (subtasks.size() == 1) {
             taskToDelete.setParent(false);
@@ -194,6 +198,7 @@ public class TaskService {
 
     public List<Task> getSubtasks(Jwt jwt, Integer parentId){
         AppUser currentUser = appUserService.getUserByEmail(jwt);
+        log.info("Current user: {} {}", currentUser.getId(), currentUser.getUsername());
         return taskRepository.findAllByParentIdAndAndAppUserId(parentId, currentUser.getId());
     }
 
@@ -203,9 +208,11 @@ public class TaskService {
 
     public Task updateSubtask(Integer taskId, Integer subtaskId, Task task){
         Task subtaskToUpdate = taskRepository.findByIdAndParentId(subtaskId, taskId);
+        if (subtaskToUpdate == null){
+            throw new EntityNotFoundException("Subtask with id: " + subtaskId +  "not found");
+        }
         subtaskToUpdate = updateTaskData(task, subtaskToUpdate);
         taskRepository.save(subtaskToUpdate);
         return subtaskToUpdate;
     }
-
 }

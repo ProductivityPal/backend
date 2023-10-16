@@ -1,6 +1,7 @@
 package pl.edu.agh.productivitypal.auth;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -10,6 +11,7 @@ import pl.edu.agh.productivitypal.enums.Role;
 import pl.edu.agh.productivitypal.model.AppUser;
 import pl.edu.agh.productivitypal.repository.AppUserRepository;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class AuthenticationService {
@@ -28,6 +30,7 @@ public class AuthenticationService {
         userRepository.save(user);
         var jwtToken = jwtService.generateToken(user);
 
+        log.info("User {} registered successfully", user.getUsername());
         return AuthenticationResponse.builder()
                 .token(jwtToken)
                 .build();
@@ -43,6 +46,7 @@ public class AuthenticationService {
         AppUser user = userRepository.findByEmail(registerRequest.getEmail()).orElseThrow();
         var jwtToken = jwtService.generateToken(user);
 
+        log.info("User {} authenticated successfully", user.getUsername());
         return AuthenticationResponse.builder()
                 .token(jwtToken)
                 .build();

@@ -1,5 +1,7 @@
 package pl.edu.agh.productivitypal.service;
 
+import jakarta.persistence.EntityNotFoundException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import pl.edu.agh.productivitypal.config.Jwt;
 import pl.edu.agh.productivitypal.model.AppUser;
@@ -12,6 +14,7 @@ import pl.edu.agh.productivitypal.repository.TaskRepository;
 
 import java.util.List;
 
+@Slf4j
 @Service
 public class CalendarService {
 
@@ -34,6 +37,7 @@ public class CalendarService {
 
     public List<Calendar> getAllCalendarsOfCurrentUser(Jwt jwt) {
         AppUser currentUser = appUserService.getUserByEmail(jwt);
+        log.info("Current user: id {} name {}", currentUser.getId(), currentUser.getUsername());
         return calendarRepository.findAllByAppUserId(currentUser.getId());
     }
 
@@ -46,13 +50,14 @@ public class CalendarService {
     }
 
     public void addTaskToCalendar(CalendarTask calendarTask, Integer id) {
-        Task task = taskRepository.findById(id).orElseThrow();
+        Task task = taskRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Task with id " + id + " not found: "));
         calendarTask.setTask(task);
+        log.info("Calendar task {} was added based on task {} {} ", calendarTask.getId(), task.getId(), task.getName());
         calendarTaskRepository.save(calendarTask);
     }
 
     public void updateCalendar(Calendar calendar, Integer id) {
-        Calendar calendarToUpdate = calendarRepository.findById(id).orElseThrow();
+        Calendar calendarToUpdate = calendarRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Calendar with id " + id + " not found: "));
         if (calendar.getName() != null){
             calendarToUpdate.setName(calendar.getName());
         }
@@ -60,7 +65,7 @@ public class CalendarService {
     }
 
     public void updateCalendarTask(CalendarTask calendarTask, Integer calendarId, Integer taskId) {
-        CalendarTask calendarTaskToUpdate = calendarTaskRepository.findByCalendarIdAndTaskId(calendarId, taskId);
+        CalendarTask calendarTaskToUpdate = calendarTaskRepository.findByCalendarIdAndTaskId(calendarId, taskId).orElseThrow(() -> new EntityNotFoundException("Calendar task with calendar id " + calendarId + " and task id " + taskId + " not found: "));
         if (calendarTask.getTask() != null){
             calendarTaskToUpdate.setTask(calendarTask.getTask());
         }
@@ -78,16 +83,18 @@ public class CalendarService {
 
     public void deleteCalendar(Integer id) {
         List<CalendarTask> calendarTasks = calendarTaskRepository.findAllByCalendarId(id);
-        calendarTaskRepository.deleteAll(calendarTasks);
+        if(!calendarTasks.isEmpty()){
+            calendarTaskRepository.deleteAll(calendarTasks);
+        }
         calendarRepository.deleteById(id);
     }
 
     public void deleteCalendarTask(Integer calendarId, Integer taskId) {
-        CalendarTask calendarTask = calendarTaskRepository.findByCalendarIdAndTaskId(calendarId, taskId);
+        CalendarTask calendarTask = calendarTaskRepository.findByCalendarIdAndTaskId(calendarId, taskId).orElseThrow(() -> new EntityNotFoundException("Calendar task with calendar id " + calendarId + " and task id " + taskId + " not found: "));
         calendarTaskRepository.delete(calendarTask);
     }
 
     public CalendarTask getCalendarTask(Integer calendarId, Integer taskId) {
-        return calendarTaskRepository.findByCalendarIdAndTaskId(calendarId, taskId);
+        return calendarTaskRepository.findByCalendarIdAndTaskId(calendarId, taskId).orElseThrow(() -> new EntityNotFoundException("Calendar task with calendar id " + calendarId + " and task id " + taskId + " not found: "));
     }
 }

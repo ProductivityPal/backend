@@ -5,16 +5,16 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import pl.edu.agh.productivitypal.model.CalendarTask;
-import pl.edu.agh.productivitypal.model.Task;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface CalendarTaskRepository extends JpaRepository<CalendarTask, Integer> {
     List<CalendarTask> findAllByCalendarId(Integer id);
 
-    CalendarTask findByCalendarIdAndTaskId(Integer calendarId, Integer taskId);
+    Optional<CalendarTask> findByCalendarIdAndTaskId(Integer calendarId, Integer taskId);
     @Query(value = "SELECT ct.* " +
         "FROM calendar_task ct " +
         "JOIN task t ON ct.task_id = t.id " +
@@ -23,5 +23,5 @@ public interface CalendarTaskRepository extends JpaRepository<CalendarTask, Inte
         "AND (ct.end_date IS NULL OR ct.end_date <= CURRENT_TIMESTAMP) " +
         "AND au.id = :userId ", nativeQuery = true)
     List<CalendarTask> findAllByUserIdAndGivenPeriodOfTime(@Param("userId") Integer userId,
-                                                           @Param("startDate") LocalDate startDate);
+                                                           @Param("startDate") LocalDateTime startDate);
 }

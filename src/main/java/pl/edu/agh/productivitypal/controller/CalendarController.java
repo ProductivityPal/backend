@@ -20,21 +20,26 @@ public class CalendarController {
         this.calendarService = calendarService;
     }
 
+    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/all")
     public List<Calendar> getCalendars() {
         return calendarService.getAllCalendars();
     }
 
+    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping
     public List<Calendar> getCalendarsOfCurrentUser(@RequestHeader(AUTHORIZATION_HEADER) Jwt jwt) {
         return calendarService.getAllCalendarsOfCurrentUser(jwt);
     }
 
+    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/{id}")
     public List<CalendarTask> getCalendarTasks(@PathVariable Integer id) {
         return calendarService.getCalendarTasks(id);
     }
 
+
+    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/{calendarId}/task/{taskId}")
     public CalendarTask getCalendarTask(@PathVariable Integer calendarId, @PathVariable Integer taskId) {
         return calendarService.getCalendarTask(calendarId, taskId);
@@ -51,11 +56,13 @@ public class CalendarController {
         calendarService.addTaskToCalendar(calendarTask, id);
     }
 
+    @CrossOrigin(origins = "http://localhost:3000")
     @PutMapping("/{id}")
     public void updateCalendar(@RequestBody Calendar calendar, @PathVariable Integer id) {
         calendarService.updateCalendar(calendar, id);
     }
 
+    @CrossOrigin(origins = "http://localhost:3000")
     @PutMapping("{calendarId}/task/{taskId}")
     public void updateCalendarTask(@RequestBody CalendarTask calendarTask, @PathVariable Integer calendarId, @PathVariable Integer taskId) {
         calendarService.updateCalendarTask(calendarTask, calendarId, taskId);

@@ -13,7 +13,7 @@ BEGIN
             insert into app_user(id, username, password, email, energy_level, is_email_verified)
             values (4, ''TimW12'', ''password'', ''timmit@gmail.com'', ''LOW'', false);
             insert into app_user(id, username, password, email, energy_level, is_email_verified)
-            values (5, ''student'', ''password'', ''student@gmail.com'', ''MEDIUM'', false);
+            values (5, ''student'', ''$2a$10$/nL8rFQ4w6ZOVU8wBbSTFeJS28NE15P7jOo/OFY7S6nrFoNWQazAC'', ''student@gmail.com'', ''MEDIUM'', false);
     END IF;
 
     IF (NOT EXISTS(SELECT * FROM category))

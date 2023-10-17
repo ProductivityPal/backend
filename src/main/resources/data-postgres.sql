@@ -4,15 +4,15 @@ DECLARE
 BEGIN
     IF (NOT EXISTS(SELECT * FROM app_user))
         THEN
-            insert into app_user(id, username, password, email, energy_level, is_email_verified, role)
+            insert into app_user(id, username, password, email, current_energy_level, is_email_verified, role)
             values (1, ''Johnny123'', ''$2a$10$/nL8rFQ4w6ZOVU8wBbSTFeJS28NE15P7jOo/OFY7S6nrFoNWQazAC'', ''johny123@gmail.com'', ''LOW'', false, ''USER'');
-             insert into app_user(id, username, password, email, energy_level, is_email_verified, role)
+             insert into app_user(id, username, password, email, current_energy_level, is_email_verified, role)
              values (2, ''Mike434'', ''$2a$10$/nL8rFQ4w6ZOVU8wBbSTFeJS28NE15P7jOo/OFY7S6nrFoNWQazAC'', ''mikerr@gmail.com'', ''MEDIUM'', false, ''USER'');
-            insert into app_user(id, username, password, email, energy_level, is_email_verified, role)
+            insert into app_user(id, username, password, email, current_energy_level, is_email_verified, role)
             values (3, ''KateJ'', ''$2a$10$/nL8rFQ4w6ZOVU8wBbSTFeJS28NE15P7jOo/OFY7S6nrFoNWQazAC'', ''kate123@gmail.com'', ''HIGH'', false, ''USER'');
-             insert into app_user(id, username, password, email, energy_level, is_email_verified, role)
+             insert into app_user(id, username, password, email, current_energy_level, is_email_verified, role)
              values (4, ''TimW12'', ''$2a$10$/nL8rFQ4w6ZOVU8wBbSTFeJS28NE15P7jOo/OFY7S6nrFoNWQazAC'', ''timmit@gmail.com'', ''LOW'', false, ''USER'');
-            insert into app_user(id, username, password, email, energy_level, is_email_verified, role)
+            insert into app_user(id, username, password, email, current_energy_level, is_email_verified, role)
             values (5, ''student'', ''$2a$10$/nL8rFQ4w6ZOVU8wBbSTFeJS28NE15P7jOo/OFY7S6nrFoNWQazAC'', ''student@gmail.com'', ''MEDIUM'', false, ''USER'');
     END IF;
 

@@ -72,9 +72,9 @@ public class TaskService {
         List<Task> sortedTasks = tasks
             .stream()
             .filter(task -> {
-                if (currentUser.getEnergyLevel().equals(EnergyLevel.LOW)) {
+                if (currentUser.getCurrentEnergyLevel().equals(EnergyLevel.LOW)) {
                     return task.getDifficulty().getValue() <= 3 || task.getLikeliness().getValue() >= 4;
-                } else if (currentUser.getEnergyLevel().equals(EnergyLevel.MEDIUM)) {
+                } else if (currentUser.getCurrentEnergyLevel().equals(EnergyLevel.MEDIUM)) {
                     return task.getDifficulty().getValue() <= 4 || task.getLikeliness().getValue() >= 3;
                 } else {
                     return true;

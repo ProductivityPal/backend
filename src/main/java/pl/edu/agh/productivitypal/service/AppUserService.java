@@ -15,10 +15,12 @@ public class AppUserService {
 
     private final AppUserRepository appUserRepository;
     private final JwtService jwtService;
+    private final EnergyLevelInfoService energyLevelInfoService;
 
-    public AppUserService(AppUserRepository appUserRepository, JwtService jwtService) {
+    public AppUserService(AppUserRepository appUserRepository, JwtService jwtService, EnergyLevelInfoService energyLevelInfoService) {
         this.appUserRepository = appUserRepository;
         this.jwtService = jwtService;
+        this.energyLevelInfoService = energyLevelInfoService;
     }
 
     public void addUser(AppUser appUser){
@@ -30,8 +32,9 @@ public class AppUserService {
         log.info("Current user: id {} name {}", appUser.getId(), appUser.getUsername());
 
         if (energyLevel != null){
-            appUser.setEnergyLevel(energyLevel);
+            appUser.setCurrentEnergyLevel(energyLevel);
             appUserRepository.save(appUser);
+            energyLevelInfoService.addEnergyLevelInfo(energyLevel, appUser);
         }
     }
 

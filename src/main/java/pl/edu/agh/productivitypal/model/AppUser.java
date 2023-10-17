@@ -28,8 +28,9 @@ public class AppUser implements UserDetails  {
     private String password;
     private String email;
     private boolean isEmailVerified;
+
     @Enumerated(EnumType.STRING)
-    private EnergyLevel energyLevel;
+    private EnergyLevel currentEnergyLevel;
 
     @Enumerated(EnumType.STRING)
     private Role role;
@@ -40,14 +41,14 @@ public class AppUser implements UserDetails  {
     @OneToMany(mappedBy = "appUser")
     private List<Calendar> calendar;
 
+    @OneToMany(mappedBy = "appUser")
+    private List<EnergyLevelInfo> energyLevelInfo;
+
     private DateTime created;
     private DateTime updated;
 
     public void setIsEmailVerified(boolean isEmailVerified) {
         this.isEmailVerified = isEmailVerified;
-    }
-    public EnergyLevel getEnergyLevel() {
-        return energyLevel;
     }
 
     @PrePersist

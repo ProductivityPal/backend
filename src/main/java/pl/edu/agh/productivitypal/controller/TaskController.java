@@ -25,83 +25,86 @@ public class TaskController {
 
     @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/all")
-    public List<Task> getTasks() {
-        return taskService.getAllTasks();
+    public ResponseEntity<List<Task>> getTasks() {
+        return ResponseEntity.ok(taskService.getAllTasks());
     }
 
     @CrossOrigin(origins = "http://localhost:3000", methods = RequestMethod.GET, allowedHeaders = "Authorization")
     @GetMapping
-    public List<Task> getTasksOfCurrentUser(@RequestHeader(AUTHORIZATION_HEADER) Jwt jwt,
+    public ResponseEntity<List<Task>> getTasksOfCurrentUser(@RequestHeader(AUTHORIZATION_HEADER) Jwt jwt,
                                             @RequestParam(required = false, defaultValue = "asc") String order,
                                             @RequestParam(required = false, defaultValue = "id") String sortBy,
                                             @RequestParam(required = false, defaultValue = "0") int offset,
                                             @RequestParam(required = false, defaultValue = "50") int pageSize) {
-        return taskService.getAllTasksOfCurrentUser(jwt, order, sortBy, offset, pageSize);
+        return ResponseEntity.ok(taskService.getAllTasksOfCurrentUser(jwt, order, sortBy, offset, pageSize));
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/algosort")
-    public List<Task> getTasksSortedByAlgosort(@RequestHeader(AUTHORIZATION_HEADER) Jwt jwt) {
-        return taskService.getTasksSortedByAlgosort(jwt);
+    public ResponseEntity<List<Task>> getTasksSortedByAlgosort(@RequestHeader(AUTHORIZATION_HEADER) Jwt jwt) {
+        return ResponseEntity.ok(taskService.getTasksSortedByAlgosort(jwt));
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping
-    public Integer addTask(@RequestBody Task task) {
-        return taskService.addTask(task);
+    public ResponseEntity<Integer> addTask(@RequestBody Task task) {
+        return ResponseEntity.ok(taskService.addTask(task));
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/{id}")
-    public Task getTaskById(@PathVariable Integer id) {
-        return taskService.getTaskById(id);
+    public ResponseEntity<Task> getTaskById(@PathVariable Integer id) {
+        return ResponseEntity.ok(taskService.getTaskById(id));
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
     @PutMapping("/{id}")
-    public Task updateTask(@PathVariable Integer id, @RequestBody Task task) {
-        return taskService.updateTask(id, task);
+    public ResponseEntity<Task> updateTask(@PathVariable Integer id, @RequestBody Task task) {
+        return ResponseEntity.ok(taskService.updateTask(id, task));
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/{id}/subtask")
-    public Integer addSubtask(@PathVariable Integer id, @RequestBody Task task) {
-        return taskService.addSubtask(id, task);
+    public ResponseEntity<Integer> addSubtask(@PathVariable Integer id, @RequestBody Task task) {
+        return ResponseEntity.ok(taskService.addSubtask(id, task));
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
     @DeleteMapping("/{id}")
-    public void deleteTask(@PathVariable Integer id) {
+    public ResponseEntity<String> deleteTask(@PathVariable Integer id) {
         taskService.deleteTask(id);
+        return ResponseEntity.ok("Task " + id + " was deleted");
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
     @DeleteMapping("/{id}/subtask")
-    public void deleteTaskAndAllSubtask(@PathVariable Integer id) {
+    public ResponseEntity<String> deleteTaskAndAllSubtask(@PathVariable Integer id) {
         taskService.deleteTaskAndAllSubtask(id);
+        return ResponseEntity.ok("Task " + id + " and all its subtasks were deleted");
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
     @DeleteMapping("/{taskId}/subtask/{subtaskId}")
-    public void deleteTask(@PathVariable Integer taskId, @PathVariable Integer subtaskId){
+    public ResponseEntity<String> deleteSubTask(@PathVariable Integer taskId, @PathVariable Integer subtaskId){
         taskService.deleteSubtask(taskId, subtaskId);
+        return ResponseEntity.ok("Subtask " + subtaskId + " of task " + taskId + " was deleted");
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/{id}/subtask")
-    public List<Task> getSubtasks(@PathVariable Integer id, @RequestHeader(AUTHORIZATION_HEADER) Jwt jwt) {
-        return taskService.getSubtasks(jwt, id);
+    public ResponseEntity<List<Task>> getSubtasks(@PathVariable Integer id, @RequestHeader(AUTHORIZATION_HEADER) Jwt jwt) {
+        return ResponseEntity.ok(taskService.getSubtasks(jwt, id));
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/{taskId}/subtask/{subtaskId}")
-    public Task getSubtask(@PathVariable Integer taskId, @PathVariable Integer subtaskId){
-        return taskService.getSubtask(taskId, subtaskId);
+    public ResponseEntity<Task> getSubtask(@PathVariable Integer taskId, @PathVariable Integer subtaskId){
+        return ResponseEntity.ok(taskService.getSubtask(taskId, subtaskId));
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
     @PutMapping("/{taskId}/subtask/{subtaskId}")
-    public Task updateSubtask(@PathVariable Integer taskId, @PathVariable Integer subtaskId, @RequestBody Task task){
-        return taskService.updateSubtask(taskId, subtaskId, task);
+    public ResponseEntity<Task> updateSubtask(@PathVariable Integer taskId, @PathVariable Integer subtaskId, @RequestBody Task task){
+        return ResponseEntity.ok(taskService.updateSubtask(taskId, subtaskId, task));
     }
 }

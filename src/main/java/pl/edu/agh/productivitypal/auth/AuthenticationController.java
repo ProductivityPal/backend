@@ -1,6 +1,7 @@
 package pl.edu.agh.productivitypal.auth;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -12,13 +13,13 @@ public class AuthenticationController {
 
     @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/register")
-    public AuthenticationResponse register(@RequestBody RegisterRequest registerRequest) {
-        return authenticationService.register(registerRequest);
+    public ResponseEntity<AuthenticationResponse> register(@RequestBody RegisterRequest registerRequest) {
+        return ResponseEntity.ok(authenticationService.register(registerRequest));
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/authenticate")
-    public AuthenticationResponse authenticate(@RequestBody AuthenticationRequest registerRequest) {
-        return authenticationService.authenticate(registerRequest);
+    public ResponseEntity<AuthenticationResponse> authenticate(@RequestBody AuthenticationRequest registerRequest) {
+        return ResponseEntity.ok(authenticationService.authenticate(registerRequest));
     }
 }

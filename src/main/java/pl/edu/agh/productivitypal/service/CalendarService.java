@@ -45,12 +45,15 @@ public class CalendarService {
         return calendarTaskRepository.findAllByCalendarId(id);
     }
 
-    public void addCalendar(Calendar calendar) {
+    public void addCalendar(Jwt jwt, Calendar calendar) {
+        AppUser user = appUserService.getUserByEmail(jwt);
+        log.info("Current user: id {} name {}", user.getId(), user.getUsername());
+        calendar.setAppUser(user);
         calendarRepository.save(calendar);
     }
 
-    public void addTaskToCalendar(CalendarTask calendarTask, Integer id) {
-        Task task = taskRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Task with id " + id + " not found: "));
+    public void addTaskToCalendar(CalendarTask calendarTask, Integer taskId) {
+        Task task = taskRepository.findById(taskId).orElseThrow(() -> new EntityNotFoundException("Task with id " + taskId + " not found: "));
         calendarTask.setTask(task);
         log.info("Calendar task {} was added based on task {} {} ", calendarTask.getId(), task.getId(), task.getName());
         calendarTaskRepository.save(calendarTask);

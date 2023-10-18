@@ -47,8 +47,8 @@ public class CalendarController {
 
     @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping
-    public ResponseEntity<String> addCalendar(@RequestBody Calendar calendar) {
-        calendarService.addCalendar(calendar);
+    public ResponseEntity<String> addCalendar(@RequestHeader(AUTHORIZATION_HEADER) Jwt jwt, @RequestBody Calendar calendar) {
+        calendarService.addCalendar(jwt, calendar);
         return ResponseEntity.ok("Calendar " + calendar.getName() + " was added");
     }
 

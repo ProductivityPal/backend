@@ -7,16 +7,25 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import pl.edu.agh.productivitypal.config.JwtService;
+import pl.edu.agh.productivitypal.enums.EnergyLevel;
 import pl.edu.agh.productivitypal.enums.Role;
 import pl.edu.agh.productivitypal.model.AppUser;
+import pl.edu.agh.productivitypal.model.Calendar;
 import pl.edu.agh.productivitypal.repository.AppUserRepository;
+import pl.edu.agh.productivitypal.repository.CalendarRepository;
+import pl.edu.agh.productivitypal.service.AppUserService;
+import pl.edu.agh.productivitypal.service.CalendarService;
+
+import java.util.ArrayList;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class AuthenticationService {
-    
+
     private final AppUserRepository userRepository;
+    private final AppUserService appUserService;
+    private final CalendarRepository calendarRepository;
     private final JwtService jwtService;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
@@ -26,8 +35,17 @@ public class AuthenticationService {
                 .password(passwordEncoder.encode(registerRequest.getPassword()))
                 .email(registerRequest.getEmail())
                 .role(Role.USER)
+                .currentEnergyLevel(EnergyLevel.MEDIUM)
                 .build();
-        userRepository.save(user);
+
+        appUserService.addUser(user);
+
+        Calendar calendar = new Calendar();
+        calendar.setAppUser(user);
+        calendar.setName("Default");
+
+        calendarRepository.save(calendar);
+
         var jwtToken = jwtService.generateToken(user);
 
         log.info("User {} registered successfully", user.getUsername());

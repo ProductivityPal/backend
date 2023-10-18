@@ -20,13 +20,6 @@ public class AppUserController {
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
-    @PostMapping
-    public ResponseEntity<String> addUser(@RequestBody AppUser appUser) {
-        appUserService.addUser(appUser);
-        return ResponseEntity.ok("User " + appUser.getUsername() + " was added");
-    }
-
-    @CrossOrigin(origins = "http://localhost:3000")
     @PutMapping("/energyLevel/{energyLevel}")
     public ResponseEntity<String> updateEnergyLevel(@PathVariable EnergyLevel energyLevel, @RequestHeader(AUTHORIZATION_HEADER) Jwt jwt) {
         appUserService.updateEnergyLevel(jwt, energyLevel);

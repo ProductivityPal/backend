@@ -38,6 +38,8 @@ public class Task {
     private boolean isSubtask;
     private boolean isParent;
     private boolean isCompleted;
+    private String category;
+
     @JsonProperty("parent_id")
     private Integer parentId;
 
@@ -47,9 +49,6 @@ public class Task {
     @ManyToOne
     @JoinColumn(name = "app_user_id") // Wskazuje na kolumnę w tabeli task, która przechowuje klucz obcy do użytkownika
     private AppUser appUser;
-
-    @OneToOne
-    private Category category;
 
     public Task(Integer id, String name, String description, int priority, Difficulty difficulty, Likeliness likeliness, LocalDate deadline, Long timeEstimate, Long completionTime, boolean isSubtask, boolean isParent, boolean isCompleted, Integer parentId) {
         this.id = id;

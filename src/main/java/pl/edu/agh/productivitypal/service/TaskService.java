@@ -85,7 +85,10 @@ public class TaskService {
         return sortedTasks;
     }
 
-    public Integer addTask(Task task) {
+    public Integer addTask(Jwt jwt, Task task) {
+        AppUser user = appUserService.getUserByEmail(jwt);
+        log.info("Current user: id {} name {}", user.getId(), user.getUsername());
+        task.setAppUser(user);
         taskRepository.save(task);
         return task.getId();
     }
@@ -152,12 +155,15 @@ public class TaskService {
         return taskToUpdate;
     }
 
-    public Integer addSubtask(Integer id, Task subtask) {
+    public Integer addSubtask(Jwt jwt, Integer id, Task subtask) {
+        AppUser user = appUserService.getUserByEmail(jwt);
+        log.info("Current user: id {} name {}", user.getId(), user.getUsername());
         Task parentTask = taskRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Parent task with id: " + id +  "not found"));
         log.info("Found parent task: {} {}", parentTask.getId(), parentTask.getName());
         parentTask.setParent(true);
         subtask.setSubtask(true);
         subtask.setParentId(id);
+        subtask.setAppUser(user);
         taskRepository.save(subtask);
         return subtask.getId();
     }

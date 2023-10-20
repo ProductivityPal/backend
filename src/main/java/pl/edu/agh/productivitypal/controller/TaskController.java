@@ -63,9 +63,9 @@ public class TaskController {
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
-    @PostMapping("/{id}/subtask")
-    public ResponseEntity<Integer> addSubtask(@RequestHeader(AUTHORIZATION_HEADER) Jwt jwt, @PathVariable Integer id, @RequestBody Task task) {
-        return ResponseEntity.ok(taskService.addSubtask(jwt, id, task));
+    @PostMapping("/subtask")
+    public ResponseEntity<Integer> addSubtask(@RequestHeader(AUTHORIZATION_HEADER) Jwt jwt, @RequestBody Task task) {
+        return ResponseEntity.ok(taskService.addSubtask(jwt, task));
     }
 
     @CrossOrigin(origins = "http://localhost:3000")

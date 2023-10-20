@@ -1,11 +1,10 @@
 package pl.edu.agh.productivitypal.controller;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.edu.agh.productivitypal.config.Jwt;
 import pl.edu.agh.productivitypal.model.Task;
-import pl.edu.agh.productivitypal.enums.EnergyLevel;
+import pl.edu.agh.productivitypal.request.TaskRequest;
 import pl.edu.agh.productivitypal.service.TaskService;
 
 import java.util.List;
@@ -106,5 +105,11 @@ public class TaskController {
     @PutMapping("/{taskId}/subtask/{subtaskId}")
     public ResponseEntity<Task> updateSubtask(@PathVariable Integer taskId, @PathVariable Integer subtaskId, @RequestBody Task task){
         return ResponseEntity.ok(taskService.updateSubtask(taskId, subtaskId, task));
+    }
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @GetMapping("/criteria")
+    public ResponseEntity<List<Task>> getTasksByCriteria(@RequestBody TaskRequest taskRequest){
+        return ResponseEntity.ok(taskService.getTasksByCriteria(taskRequest));
     }
 }

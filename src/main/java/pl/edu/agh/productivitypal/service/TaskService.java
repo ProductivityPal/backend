@@ -12,6 +12,8 @@ import pl.edu.agh.productivitypal.model.AppUser;
 import pl.edu.agh.productivitypal.model.Task;
 import pl.edu.agh.productivitypal.repository.AppUserRepository;
 import pl.edu.agh.productivitypal.repository.TaskRepository;
+import pl.edu.agh.productivitypal.repository.dao.TaskSearchDao;
+import pl.edu.agh.productivitypal.request.TaskRequest;
 
 import java.time.LocalDate;
 import java.time.Period;
@@ -25,11 +27,13 @@ public class TaskService {
     private final TaskRepository taskRepository;
     private final AppUserRepository appUserRepository;
     private final AppUserService appUserService;
+    private final TaskSearchDao taskSearchDao;
 
-    public TaskService(TaskRepository taskRepository, AppUserRepository appUserRepository, AppUserService appUserService) {
+    public TaskService(TaskRepository taskRepository, AppUserRepository appUserRepository, AppUserService appUserService, TaskSearchDao taskSearchDao) {
         this.taskRepository = taskRepository;
         this.appUserRepository = appUserRepository;
         this.appUserService = appUserService;
+        this.taskSearchDao = taskSearchDao;
     }
     public List<Task> getAllTasks() {
         return taskRepository.findAll();
@@ -220,5 +224,9 @@ public class TaskService {
         subtaskToUpdate = updateTaskData(task, subtaskToUpdate);
         taskRepository.save(subtaskToUpdate);
         return subtaskToUpdate;
+    }
+
+    public List<Task> getTasksByCriteria(TaskRequest taskRequest){
+        return taskSearchDao.findAllByCriteria(taskRequest);
     }
 }

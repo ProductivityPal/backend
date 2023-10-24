@@ -54,8 +54,8 @@ public class CalendarController {
 
     @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/task/{id}")
-    public ResponseEntity<String> addTaskToCalendar(@RequestBody CalendarTask calendarTask, @PathVariable Integer id) {
-        calendarService.addTaskToCalendar(calendarTask, id);
+    public ResponseEntity<String> addTaskToCalendar(@RequestHeader(AUTHORIZATION_HEADER) Jwt jwt, @RequestBody CalendarTask calendarTask, @PathVariable Integer id) {
+        calendarService.addTaskToCalendar(jwt, calendarTask, id);
         return ResponseEntity.ok("Task " + calendarTask.getTask().getName() + " was added to calendar " +  calendarTask.getCalendar().getName());
     }
 

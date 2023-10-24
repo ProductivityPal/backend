@@ -84,15 +84,15 @@ BEGIN
     IF (NOT EXISTS(SELECT * FROM calendar))
         THEN
             insert into calendar(id, name, app_user_id)
-            values (1, ''AGH'', 1);
+            values (1, ''Default'', 1);
             insert into calendar(id, name, app_user_id)
-            values (2, ''Work'', 1);
+            values (2, ''Default'', 2);
             insert into calendar(id, name, app_user_id)
-            values (3, ''Home'', 2);
+            values (3, ''Default'', 3);
             insert into calendar(id, name, app_user_id)
-            values (4, ''Friends'', 4);
+            values (4, ''Default'', 4);
             insert into calendar(id, name, app_user_id)
-            values (5, ''Birthday'', 3);
+            values (5, ''Default'', 5);
         END IF;
 
     IF (NOT EXISTS(SELECT * FROM calendar_task))

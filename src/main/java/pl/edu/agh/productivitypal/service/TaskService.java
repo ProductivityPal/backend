@@ -108,7 +108,7 @@ public class TaskService {
         if(task.getDescription() != null){
             taskToUpdate.setDescription(task.getDescription());
         }
-        if(task.getPriority() != taskToUpdate.getPriority()){
+        if(task.getPriority() != 0){
             taskToUpdate.setPriority(task.getPriority());
         }
         if(task.getDifficulty() != null){
@@ -126,23 +126,11 @@ public class TaskService {
         if (task.getCompletionTime() != null){
             taskToUpdate.setCompletionTime(task.getCompletionTime());
         }
-        if (task.getPriorityScore() != taskToUpdate.getPriorityScore()){
+        if (task.getPriorityScore() != 0){
             taskToUpdate.setPriorityScore(task.getPriorityScore());
         }
-        if (task.isParent() != taskToUpdate.isParent()){
-            taskToUpdate.setParent(task.isParent());
-        }
-        if(task.isCompleted() != taskToUpdate.isCompleted()){
+        if(task.isCompleted()){
             taskToUpdate.setCompleted(task.isCompleted());
-        }
-        if (task.isSubtask() != taskToUpdate.isSubtask()){
-            taskToUpdate.setSubtask(task.isSubtask());
-        }
-        if (task.getParentId() != taskToUpdate.getParentId()){
-            taskToUpdate.setParentId(task.getParentId());
-        }
-        if (task.getAppUser() != null){
-            taskToUpdate.setAppUser(task.getAppUser());
         }
         if (task.getCategory() != null){
             taskToUpdate.setCategory(task.getCategory());

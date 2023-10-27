@@ -57,6 +57,7 @@ public class CalendarService {
         Task task = taskRepository.findById(taskId).orElseThrow(() -> new EntityNotFoundException("Task with id " + taskId + " not found: "));
         calendarTask.setTask(task);
         calendarTask.setCalendar(calendarRepository.findByNameAndAppUser("Default", user));
+        calendarTask.setEndDate(calendarTask.getStartDate().plusSeconds(task.getCompletionTime()));
         log.info("Calendar task {} was added based on task {} {} ", calendarTask.getId(), task.getId(), task.getName());
         calendarTaskRepository.save(calendarTask);
     }

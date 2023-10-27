@@ -155,6 +155,16 @@ public class TaskService {
         parentTask.setParent(true);
         subtask.setSubtask(true);
         subtask.setAppUser(user);
+
+        subtask.setCategory(parentTask.getCategory());
+        subtask.setDifficulty(parentTask.getDifficulty());
+        subtask.setLikeliness(parentTask.getLikeliness());
+        subtask.setDeadline(parentTask.getDeadline());
+        subtask.setTimeEstimate(parentTask.getTimeEstimate());
+        subtask.setPriorityScore(parentTask.getPriorityScore());
+        subtask.setPriority(parentTask.getPriority());
+        subtask.setCompletionTime(parentTask.getCompletionTime());
+
         taskRepository.save(subtask);
         return subtask.getId();
     }

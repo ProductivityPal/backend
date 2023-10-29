@@ -51,6 +51,7 @@ public class AuthenticationService {
         log.info("User {} registered successfully", user.getUsername());
         return AuthenticationResponse.builder()
                 .token(jwtToken)
+                .calendarId(calendar.getId())
                 .build();
     }
 
@@ -67,6 +68,7 @@ public class AuthenticationService {
         log.info("User {} authenticated successfully", user.getUsername());
         return AuthenticationResponse.builder()
                 .token(jwtToken)
+                .calendarId(user.getCalendar().get(0).getId())
                 .build();
     }
 }

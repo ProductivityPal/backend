@@ -34,9 +34,9 @@ public class CalendarController {
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
-    @GetMapping("/{id}")
-    public ResponseEntity<List<CalendarTask>> getCalendarTasks(@PathVariable Integer id) {
-        return ResponseEntity.ok(calendarService.getCalendarTasks(id));
+    @GetMapping("/tasks")
+    public ResponseEntity<List<CalendarTask>> getCalendarTasks(@RequestHeader(AUTHORIZATION_HEADER) Jwt jwt) {
+        return ResponseEntity.ok(calendarService.getCalendarTasks(jwt));
     }
 
     @CrossOrigin(origins = "http://localhost:3000")

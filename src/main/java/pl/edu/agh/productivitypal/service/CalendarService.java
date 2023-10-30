@@ -41,8 +41,11 @@ public class CalendarService {
         return calendarRepository.findAllByAppUserId(currentUser.getId());
     }
 
-    public List<CalendarTask> getCalendarTasks(Integer id) {
-        return calendarTaskRepository.findAllByCalendarId(id);
+    public List<CalendarTask> getCalendarTasks(Jwt jwt) {
+        AppUser currentUser = appUserService.getUserByEmail(jwt);
+        log.info("Current user: id {} name {}", currentUser.getId(), currentUser.getUsername());
+        Calendar userCalendar = calendarRepository.findByNameAndAppUser("Default", currentUser);
+        return calendarTaskRepository.findAllByCalendarId(userCalendar.getId());
     }
 
     public void addCalendar(Jwt jwt, Calendar calendar) {

@@ -42,9 +42,7 @@ public class CalendarService {
     }
 
     public List<CalendarTask> getCalendarTasks(Jwt jwt) {
-        AppUser currentUser = appUserService.getUserByEmail(jwt);
-        log.info("Current user: id {} name {}", currentUser.getId(), currentUser.getUsername());
-        Calendar userCalendar = calendarRepository.findByNameAndAppUser("Default", currentUser);
+        Calendar userCalendar = getCalendarOfCurrentUser(jwt);
         return calendarTaskRepository.findAllByCalendarId(userCalendar.getId());
     }
 
@@ -73,8 +71,9 @@ public class CalendarService {
         calendarRepository.save(calendarToUpdate);
     }
 
-    public void updateCalendarTask(CalendarTask calendarTask, Integer calendarId, Integer taskId) {
-        CalendarTask calendarTaskToUpdate = calendarTaskRepository.findByCalendarIdAndTaskId(calendarId, taskId).orElseThrow(() -> new EntityNotFoundException("Calendar task with calendar id " + calendarId + " and task id " + taskId + " not found: "));
+    public void updateCalendarTask(Jwt jwt, CalendarTask calendarTask, Integer taskId) {
+        Calendar userCalendar = getCalendarOfCurrentUser(jwt);
+        CalendarTask calendarTaskToUpdate = calendarTaskRepository.findByCalendarIdAndTaskId(userCalendar.getId(), taskId).orElseThrow(() -> new EntityNotFoundException("Calendar task with calendar id " + userCalendar.getId() + " and task id " + taskId + " not found: "));
         if (calendarTask.getTask() != null){
             calendarTaskToUpdate.setTask(calendarTask.getTask());
         }
@@ -103,7 +102,14 @@ public class CalendarService {
         calendarTaskRepository.delete(calendarTask);
     }
 
-    public CalendarTask getCalendarTask(Integer calendarId, Integer taskId) {
-        return calendarTaskRepository.findByCalendarIdAndTaskId(calendarId, taskId).orElseThrow(() -> new EntityNotFoundException("Calendar task with calendar id " + calendarId + " and task id " + taskId + " not found: "));
+    public CalendarTask getCalendarTask(Jwt jwt, Integer taskId) {
+        Calendar userCalendar = getCalendarOfCurrentUser(jwt);
+        return calendarTaskRepository.findByCalendarIdAndTaskId(userCalendar.getId(), taskId).orElseThrow(() -> new EntityNotFoundException("Calendar task with calendar id " + userCalendar.getId() + " and task id " + taskId + " not found: "));
+    }
+
+    private Calendar getCalendarOfCurrentUser(Jwt jwt){
+        AppUser user = appUserService.getUserByEmail(jwt);
+        log.info("Current user: id {} name {}", user.getId(), user.getUsername());
+        return calendarRepository.findByNameAndAppUser("Default", user);
     }
 }

@@ -40,9 +40,9 @@ public class CalendarController {
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
-    @GetMapping("/{calendarId}/task/{taskId}")
-    public ResponseEntity<CalendarTask> getCalendarTask(@PathVariable Integer calendarId, @PathVariable Integer taskId) {
-        return ResponseEntity.ok(calendarService.getCalendarTask(calendarId, taskId));
+    @GetMapping("/task/{taskId}")
+    public ResponseEntity<CalendarTask> getCalendarTask(@RequestHeader(AUTHORIZATION_HEADER) Jwt jwt, @PathVariable Integer taskId) {
+        return ResponseEntity.ok(calendarService.getCalendarTask(jwt, taskId));
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
@@ -68,22 +68,8 @@ public class CalendarController {
 
     @CrossOrigin(origins = "http://localhost:3000")
     @PutMapping("{calendarId}/task/{taskId}")
-    public ResponseEntity<String> updateCalendarTask(@RequestBody CalendarTask calendarTask, @PathVariable Integer calendarId, @PathVariable Integer taskId) {
-        calendarService.updateCalendarTask(calendarTask, calendarId, taskId);
+    public ResponseEntity<String> updateCalendarTask(@RequestHeader(AUTHORIZATION_HEADER) Jwt jwt, @RequestBody CalendarTask calendarTask, @PathVariable Integer taskId) {
+        calendarService.updateCalendarTask(jwt, calendarTask, taskId);
         return ResponseEntity.ok("Calendar task " + calendarTask.getTask().getName() + " information was updated");
-    }
-
-    @CrossOrigin(origins = "http://localhost:3000")
-    @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteCalendar(@PathVariable Integer id) {
-        calendarService.deleteCalendar(id);
-        return ResponseEntity.ok("Calendar was deleted successfully");
-    }
-
-    @CrossOrigin(origins = "http://localhost:3000")
-    @DeleteMapping("/{calendarId}/task/{taskId}")
-    public ResponseEntity<String> deleteCalendarTask(@PathVariable Integer calendarId, @PathVariable Integer taskId) {
-        calendarService.deleteCalendarTask(calendarId, taskId);
-        return ResponseEntity.ok("Task from calendar was deleted successfully");
     }
 }

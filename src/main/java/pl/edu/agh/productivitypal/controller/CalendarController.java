@@ -67,7 +67,7 @@ public class CalendarController {
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
-    @PutMapping("{calendarId}/task/{taskId}")
+    @PutMapping("/task/{taskId}")
     public ResponseEntity<String> updateCalendarTask(@RequestHeader(AUTHORIZATION_HEADER) Jwt jwt, @RequestBody CalendarTask calendarTask, @PathVariable Integer taskId) {
         calendarService.updateCalendarTask(jwt, calendarTask, taskId);
         return ResponseEntity.ok("Calendar task " + calendarTask.getTask().getName() + " information was updated");

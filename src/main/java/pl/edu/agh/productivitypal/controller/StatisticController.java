@@ -2,10 +2,15 @@ package pl.edu.agh.productivitypal.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import pl.edu.agh.productivitypal.dto.DoneAndUndoneTaskDto;
+import pl.edu.agh.productivitypal.config.Jwt;
+import pl.edu.agh.productivitypal.dto.ReportInfoDto;
+import pl.edu.agh.productivitypal.model.EnergyLevelInfo;
 import pl.edu.agh.productivitypal.service.StatisticService;
 
 import java.time.LocalDateTime;
+import java.util.List;
+
+import static pl.edu.agh.productivitypal.config.SecurityConstant.AUTHORIZATION_HEADER;
 
 @RestController
 @RequestMapping(value = "/statistic")
@@ -17,10 +22,17 @@ public class StatisticController {
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
-    @GetMapping("/doneAndUndoneTasks")
-    public ResponseEntity<DoneAndUndoneTaskDto> getDoneAndUndoneTask(@RequestParam Integer id,
-                                               @RequestParam LocalDateTime startDate){
-        return ResponseEntity.ok(statisticService.getDoneAndUndoneTask(id, startDate));
+    @GetMapping
+    public ResponseEntity<ReportInfoDto> getInfoReport(@RequestHeader(AUTHORIZATION_HEADER) Jwt jwt,
+                                                              @RequestParam LocalDateTime startDate,
+                                                              @RequestParam LocalDateTime endDate){
+        return ResponseEntity.ok(statisticService.getInfoReport(jwt, startDate, endDate));
+    }
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @GetMapping("/energyLevel")
+    public ResponseEntity<List<EnergyLevelInfo>> getEnergyLevelReport(@RequestHeader(AUTHORIZATION_HEADER) Jwt jwt){
+        return ResponseEntity.ok(statisticService.getEnergyLevelReport(jwt));
     }
 
 }

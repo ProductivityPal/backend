@@ -7,6 +7,7 @@ import pl.edu.agh.productivitypal.model.AppUser;
 import pl.edu.agh.productivitypal.model.Task;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
@@ -17,7 +18,7 @@ public interface TaskRepository extends JpaRepository<Task, Integer> {
 
     Task findByIdAndParentId(Integer id, Integer parentId);
 
-    List<Task> findAllByAppUser(AppUser appUser);
+    List<Task> findAllByAppUserIdAndDeadlineBetween(Integer id, LocalDateTime startDate, LocalDateTime endDate);
 
     @Query(value = "SELECT * FROM task", nativeQuery = true)
     List<Task> findAllQuery();

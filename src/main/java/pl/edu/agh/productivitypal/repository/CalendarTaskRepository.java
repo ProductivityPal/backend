@@ -14,6 +14,8 @@ import java.util.Optional;
 public interface CalendarTaskRepository extends JpaRepository<CalendarTask, Integer> {
     List<CalendarTask> findAllByCalendarId(Integer id);
 
+    Optional<CalendarTask> findByIdAndCalendarId(Integer id, Integer calendarId);
+
     Optional<CalendarTask> findByCalendarIdAndTaskId(Integer calendarId, Integer taskId);
     @Query(value = "SELECT ct.* " +
         "FROM calendar_task ct " +

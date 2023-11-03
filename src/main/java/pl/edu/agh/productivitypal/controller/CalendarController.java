@@ -72,4 +72,11 @@ public class CalendarController {
         calendarService.updateCalendarTask(jwt, calendarTask, taskId);
         return ResponseEntity.ok("Calendar task " + calendarTask.getTask().getName() + " information was updated");
     }
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @DeleteMapping("/task/{calendarTaskId}")
+    public ResponseEntity<String> deleteCalendarTask(@RequestHeader(AUTHORIZATION_HEADER) Jwt jwt, @PathVariable Integer calendarTaskId) {
+        calendarService.deleteCalendarTask(jwt, calendarTaskId);
+        return ResponseEntity.ok("Calendar task " + calendarTaskId + " from calendar was deleted successfully");
+    }
 }

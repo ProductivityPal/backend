@@ -3,6 +3,7 @@ package pl.edu.agh.productivitypal.controller;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.edu.agh.productivitypal.config.Jwt;
+import pl.edu.agh.productivitypal.dto.PomodoroRequest;
 import pl.edu.agh.productivitypal.model.Task;
 import pl.edu.agh.productivitypal.request.TaskRequest;
 import pl.edu.agh.productivitypal.service.TaskService;
@@ -112,4 +113,12 @@ public class TaskController {
     public ResponseEntity<List<Task>> getTasksByCriteria(@RequestBody TaskRequest taskRequest){
         return ResponseEntity.ok(taskService.getTasksByCriteria(taskRequest));
     }
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @PostMapping("/pomodoro")
+    public ResponseEntity<String> addCompletionTimePomodoro(@RequestBody PomodoroRequest pomodoroRequest){
+        taskService.addCompletionTimePomodoro(pomodoroRequest.getTaskId(), pomodoroRequest.getCompletionTime());
+        return ResponseEntity.ok("Completion time " + pomodoroRequest.getCompletionTime() + " was added to task " + pomodoroRequest.getTaskId());
+    }
+
 }

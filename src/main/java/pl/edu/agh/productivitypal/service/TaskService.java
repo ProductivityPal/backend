@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import pl.edu.agh.productivitypal.config.Jwt;
 import pl.edu.agh.productivitypal.enums.EnergyLevel;
 import pl.edu.agh.productivitypal.enums.Weight;
@@ -169,6 +170,7 @@ public class TaskService {
         return subtask.getId();
     }
 
+    @Transactional
     public void deleteTask(Integer id) {
         Task taskToDelete = taskRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Task with id: " + id +  "not found"));
         log.info("Task to delete: {} {}", taskToDelete.getId(), taskToDelete.getName());
@@ -225,5 +227,11 @@ public class TaskService {
 
     public List<Task> getTasksByCriteria(TaskRequest taskRequest){
         return taskSearchDao.findAllByCriteria(taskRequest);
+    }
+
+    public void addCompletionTimePomodoro(Integer taskId, Long completionTime){
+        Task taskToUpdate = taskRepository.findById(taskId).orElseThrow(() -> new EntityNotFoundException("Task with id: " + taskId +  "not found"));
+        taskToUpdate.setCompletionTime(completionTime);
+        taskRepository.save(taskToUpdate);
     }
 }

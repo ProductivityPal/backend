@@ -1,6 +1,7 @@
 package pl.edu.agh.productivitypal.service;
 
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import pl.edu.agh.productivitypal.config.Jwt;
@@ -23,12 +24,14 @@ public class CalendarService {
 
     private final TaskRepository taskRepository;
     private final AppUserService appUserService;
+    private final TaskService taskService;
 
-    public CalendarService(CalendarRepository calendarRepository, CalendarTaskRepository calendarTaskRepository, TaskRepository taskRepository, AppUserService appUserService) {
+    public CalendarService(CalendarRepository calendarRepository, CalendarTaskRepository calendarTaskRepository, TaskRepository taskRepository, AppUserService appUserService, TaskService taskService) {
         this.calendarRepository = calendarRepository;
         this.calendarTaskRepository = calendarTaskRepository;
         this.taskRepository = taskRepository;
         this.appUserService = appUserService;
+        this.taskService = taskService;
     }
 
     public List<Calendar> getAllCalendars() {
@@ -89,17 +92,12 @@ public class CalendarService {
         calendarTaskRepository.save(calendarTaskToUpdate);
     }
 
-    public void deleteCalendar(Integer id) {
-        List<CalendarTask> calendarTasks = calendarTaskRepository.findAllByCalendarId(id);
-        if(!calendarTasks.isEmpty()){
-            calendarTaskRepository.deleteAll(calendarTasks);
-        }
-        calendarRepository.deleteById(id);
-    }
-
-    public void deleteCalendarTask(Integer calendarId, Integer taskId) {
-        CalendarTask calendarTask = calendarTaskRepository.findByCalendarIdAndTaskId(calendarId, taskId).orElseThrow(() -> new EntityNotFoundException("Calendar task with calendar id " + calendarId + " and task id " + taskId + " not found: "));
-        calendarTaskRepository.delete(calendarTask);
+    @Transactional
+    public void deleteCalendarTask(Jwt jwt, Integer calendarTaskId) {
+        Calendar userCalendar = getCalendarOfCurrentUser(jwt);
+        CalendarTask calendarTaskToDelete = calendarTaskRepository.findByIdAndCalendarId(calendarTaskId, userCalendar.getId()).orElseThrow(() -> new EntityNotFoundException("Calendar task with calendar id " + userCalendar.getId() + " and task id " + calendarTaskId + " not found: "));
+        taskService.deleteTask(calendarTaskToDelete.getTask().getId());
+        calendarTaskRepository.delete(calendarTaskToDelete);
     }
 
     public CalendarTask getCalendarTask(Jwt jwt, Integer taskId) {

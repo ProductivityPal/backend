@@ -63,7 +63,7 @@ public class TaskService {
 
         LocalDate now = LocalDate.now();
         for (Task task : tasks){
-            Period difference = Period.between(now, task.getDeadline());
+            Period difference = Period.between(now, task.getDeadline().toLocalDate());
             double daysUntilDeadline = Math.max(0, difference.getDays());
             double priorityScore = Weight.DEADLINE.getValue() * (1 / daysUntilDeadline) * 100 +
                     Weight.DIFFICULTY.getValue() * task.getDifficulty().getValue() +

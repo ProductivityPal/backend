@@ -1,7 +1,6 @@
 package pl.edu.agh.productivitypal.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonValue;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -10,7 +9,7 @@ import lombok.Setter;
 import pl.edu.agh.productivitypal.enums.Difficulty;
 import pl.edu.agh.productivitypal.enums.Likeliness;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -30,7 +29,7 @@ public class Task {
     private Difficulty difficulty;
     @Enumerated(EnumType.STRING)
     private Likeliness likeliness;
-    private LocalDate deadline;
+    private LocalDateTime deadline;
     @JsonProperty("time_estimate")
     private Long timeEstimate;
     @JsonProperty("completion_time")
@@ -50,7 +49,7 @@ public class Task {
     @JoinColumn(name = "app_user_id") // Wskazuje na kolumnę w tabeli task, która przechowuje klucz obcy do użytkownika
     private AppUser appUser;
 
-    public Task(Integer id, String name, String description, int priority, Difficulty difficulty, Likeliness likeliness, LocalDate deadline, Long timeEstimate, Long completionTime, boolean isSubtask, boolean isParent, boolean isCompleted, Integer parentId) {
+    public Task(Integer id, String name, String description, int priority, Difficulty difficulty, Likeliness likeliness, LocalDateTime deadline, Long timeEstimate, Long completionTime, boolean isSubtask, boolean isParent, boolean isCompleted, Integer parentId) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -66,8 +65,6 @@ public class Task {
         this.parentId = parentId;
 
     }
-
-
 }
 
 

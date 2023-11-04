@@ -1,10 +1,10 @@
 package pl.edu.agh.productivitypal.controller;
 
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.edu.agh.productivitypal.config.Jwt;
 import pl.edu.agh.productivitypal.dto.ReportInfoDto;
-import pl.edu.agh.productivitypal.dto.StatisticRequest;
 import pl.edu.agh.productivitypal.model.EnergyLevelInfo;
 import pl.edu.agh.productivitypal.service.StatisticService;
 
@@ -25,8 +25,10 @@ public class StatisticController {
     @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping
     public ResponseEntity<ReportInfoDto> getInfoReport(@RequestHeader(AUTHORIZATION_HEADER) Jwt jwt,
-                                                              @RequestBody StatisticRequest statisticRequest){
-        return ResponseEntity.ok(statisticService.getInfoReport(jwt, statisticRequest.getStartDate(), statisticRequest.getEndDate()));
+                                                       @RequestParam("start_date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startDate,
+                                                       @RequestParam("end_date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endDate){
+        System.out.println(startDate);
+        return ResponseEntity.ok(statisticService.getInfoReport(jwt, startDate, endDate));
     }
 
     @CrossOrigin(origins = "http://localhost:3000")

@@ -92,7 +92,7 @@ public class StatisticService {
         AppUser currentUser = appUserService.getUserByEmail(jwt);
         log.info("Current user: id {} name {}", currentUser.getId(), currentUser.getUsername());
 
-        return energyLevelInfoRepository.findAllByAppUserIdAndNotificationTimeBetween(currentUser.getId(), DateTime.now().plusDays(-7), DateTime.now());
+        return energyLevelInfoRepository.findAllByAppUserIdAndNotificationTimeBetween(currentUser.getId(), LocalDateTime.now().plusDays(-7), LocalDateTime.now());
     }
 
 }

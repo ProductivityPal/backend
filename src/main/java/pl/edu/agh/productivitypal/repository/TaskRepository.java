@@ -20,6 +20,8 @@ public interface TaskRepository extends JpaRepository<Task, Integer> {
 
     List<Task> findAllByAppUserIdAndDeadlineBetween(Integer id, LocalDateTime startDate, LocalDateTime endDate);
 
+    List<Task> findAllByAppUserId(Integer id);
+
     @Query(value = "SELECT * FROM task", nativeQuery = true)
     List<Task> findAllQuery();
 

@@ -184,6 +184,15 @@ public class TaskService {
         taskRepository.deleteById(id);
     }
 
+    @Transactional
+    public void deleteAllTasksOfCurrentUser(AppUser currentUser){
+        List<Task> tasksToDelete = taskRepository.findAllByAppUserId(currentUser.getId());
+        for (Task task : tasksToDelete) {
+            deleteTaskAndAllSubtask(task.getId());
+        }
+    }
+
+    @Transactional
     public void deleteTaskAndAllSubtask(Integer id) {
         Task taskToDelete = taskRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Task with id: " + id +  "not found"));
         log.info("Task to delete: {} {}", taskToDelete.getId(), taskToDelete.getName());

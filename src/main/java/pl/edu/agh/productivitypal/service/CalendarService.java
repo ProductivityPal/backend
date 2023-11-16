@@ -110,4 +110,12 @@ public class CalendarService {
         log.info("Current user: id {} name {}", user.getId(), user.getUsername());
         return calendarRepository.findByNameAndAppUser("Default", user);
     }
+
+    @Transactional
+    public void deleteCalendar(Jwt jwt, Calendar calendar) {
+        for (CalendarTask calendarTask : calendarTaskRepository.findAllByCalendarId(calendar.getId())) {
+            deleteCalendarTask(jwt, calendarTask.getTask().getId());
+        }
+        calendarRepository.delete(calendar);
+    }
 }

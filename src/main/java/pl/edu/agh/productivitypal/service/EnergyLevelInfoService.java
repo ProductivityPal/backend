@@ -1,6 +1,7 @@
 package pl.edu.agh.productivitypal.service;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import pl.edu.agh.productivitypal.enums.EnergyLevel;
 import pl.edu.agh.productivitypal.model.AppUser;
 import pl.edu.agh.productivitypal.model.EnergyLevelInfo;
@@ -24,5 +25,10 @@ public class EnergyLevelInfoService {
                 .appUser(appUser)
                 .build();
         energyLevelInfoRepository.save(info);
+    }
+
+    @Transactional
+    public void deleteAllEnergyLevelInfoOfCurrentUser(AppUser appUser){
+        energyLevelInfoRepository.deleteAllByAppUser(appUser);
     }
 }

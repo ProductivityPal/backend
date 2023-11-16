@@ -15,6 +15,7 @@ import pl.edu.agh.productivitypal.repository.AppUserRepository;
 import pl.edu.agh.productivitypal.repository.CalendarRepository;
 import pl.edu.agh.productivitypal.service.AppUserService;
 import pl.edu.agh.productivitypal.service.CalendarService;
+import pl.edu.agh.productivitypal.service.CategoryService;
 
 import java.util.ArrayList;
 
@@ -26,6 +27,7 @@ public class AuthenticationService {
     private final AppUserRepository userRepository;
     private final AppUserService appUserService;
     private final CalendarRepository calendarRepository;
+    private final CategoryService categoryService;
     private final JwtService jwtService;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
@@ -39,6 +41,8 @@ public class AuthenticationService {
                 .build();
 
         appUserService.addUser(user);
+
+        categoryService.addDefaultCategories(user);
 
         Calendar calendar = new Calendar();
         calendar.setAppUser(user);

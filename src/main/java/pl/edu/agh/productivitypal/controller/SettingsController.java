@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.edu.agh.productivitypal.config.Jwt;
+import pl.edu.agh.productivitypal.dto.CategoryDto;
 import pl.edu.agh.productivitypal.dto.SettingsLoginDto;
 import pl.edu.agh.productivitypal.service.SettingsService;
 
@@ -35,4 +36,10 @@ public class SettingsController {
         return ResponseEntity.ok("Account was deleted successfully.");
     }
 
+    @CrossOrigin(origins = "http://localhost:3000")
+    @PostMapping("/category")
+    public ResponseEntity<String> changeCategories(@RequestHeader(AUTHORIZATION_HEADER) Jwt jwt, @RequestBody CategoryDto categoryDto){
+        settingsService.changeCategories(jwt, categoryDto);
+        return ResponseEntity.ok("Categories were changed successfully.");
+    }
 }

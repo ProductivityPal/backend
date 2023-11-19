@@ -109,6 +109,19 @@ BEGIN
             values (''2019-09-08'', null, 1, 5);
         END IF;
 
+    IF (NOT EXISTS(SELECT * FROM category))
+        THEN
+            insert into category(default_name, app_user_id)
+            values (''beige'', 5);
+            insert into category(default_name, app_user_id)
+            values (''green'', 5);
+            insert into category(default_name, app_user_id)
+            values (''accent'', 5);
+            insert into category(default_name, app_user_id)
+            values (''grey'', 5);
+        END IF;
+
+
 END;
 '  LANGUAGE PLPGSQL;
 

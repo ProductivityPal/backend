@@ -42,4 +42,10 @@ public class SettingsController {
         settingsService.changeCategories(jwt, categoryDto);
         return ResponseEntity.ok("Categories were changed successfully.");
     }
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @GetMapping("/category")
+    public ResponseEntity<CategoryDto> getCategories(@RequestHeader(AUTHORIZATION_HEADER) Jwt jwt){
+        return ResponseEntity.ok(settingsService.getCategories(jwt));
+    }
 }

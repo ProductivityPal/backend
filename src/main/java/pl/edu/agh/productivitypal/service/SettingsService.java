@@ -12,6 +12,8 @@ import pl.edu.agh.productivitypal.model.Category;
 import pl.edu.agh.productivitypal.repository.AppUserRepository;
 import pl.edu.agh.productivitypal.repository.CategoryRepository;
 
+import java.util.List;
+
 @Slf4j
 @Service
 public class SettingsService {
@@ -97,5 +99,31 @@ public class SettingsService {
             c4.setCustomName(categoryDto.getGrey());
             categoryRepository.save(c4);
         }
+    }
+
+    public CategoryDto getCategories(Jwt jwt) {
+        AppUser currentUser = appUserService.getUserByEmail(jwt);
+        log.info("Current user: id {} name {}", currentUser.getId(), currentUser.getUsername());
+
+        List<Category> categories = categoryRepository.findByAppUserId(currentUser.getId());
+        String beige = categories.stream().filter(c -> c.getDefaultName().equals("beige")).findFirst().get().getCustomName();
+        beige = beige == null ? "beige" : beige;
+
+        String green = categories.stream().filter(c -> c.getDefaultName().equals("green")).findFirst().get().getCustomName();
+        green = green == null ? "green" : green;
+
+        String accent = categories.stream().filter(c -> c.getDefaultName().equals("accent")).findFirst().get().getCustomName();
+        accent = accent == null ? "accent" : accent;
+
+        String grey = categories.stream().filter(c -> c.getDefaultName().equals("grey")).findFirst().get().getCustomName();
+        grey = grey == null ? "grey" : grey;
+
+        return CategoryDto
+                .builder()
+                .beige(beige)
+                .green(green)
+                .accent(accent)
+                .grey(grey)
+                .build();
     }
 }

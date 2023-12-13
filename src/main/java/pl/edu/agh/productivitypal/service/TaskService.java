@@ -17,7 +17,10 @@ import pl.edu.agh.productivitypal.repository.dao.TaskSearchDao;
 import pl.edu.agh.productivitypal.request.TaskRequest;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.Period;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -64,7 +67,7 @@ public class TaskService {
         LocalDate now = LocalDate.now();
         for (Task task : tasks){
             Period difference = Period.between(now, task.getDeadline().toLocalDate());
-            double daysUntilDeadline = Math.max(0, difference.getDays());
+            double daysUntilDeadline = Math.max(1, difference.getDays());
             double priorityScore = Weight.DEADLINE.getValue() * (1 / daysUntilDeadline) * 100 +
                     Weight.DIFFICULTY.getValue() * task.getDifficulty().getValue() +
                     Weight.TIME_ESTIMATE.getValue() * task.getTimeEstimate() +
@@ -74,22 +77,23 @@ public class TaskService {
 
         tasks.sort((a, b) -> Double.compare(b.getPriorityScore(), a.getPriorityScore()));
 
-        List<Task> sortedTasks = tasks
-            .stream()
-            .filter(task -> {
-                if (currentUser.getCurrentEnergyLevel().equals(EnergyLevel.LOW)) {
-                    return task.getDifficulty().getValue() <= 3 || task.getLikeliness().getValue() >= 4;
-                } else if (currentUser.getCurrentEnergyLevel().equals(EnergyLevel.MEDIUM)) {
-                    return task.getDifficulty().getValue() <= 4 || task.getLikeliness().getValue() >= 3;
-                } else {
-                    return true;
-                }
-            })
-            .collect(Collectors.toList());
+        List<Task> result = new ArrayList<>();
+        Long maxTimeEstimated = 60L;
+        for (Task task : tasks) {
+            if (maxTimeEstimated <= 0){
+                break;
+            }
 
-        return sortedTasks;
+            if (currentUser.getCurrentEnergyLevel().equals(EnergyLevel.HIGH)
+                    || (currentUser.getCurrentEnergyLevel().equals(EnergyLevel.LOW) && (task.getDifficulty().getValue() <= 3 || task.getLikeliness().getValue() >= 4))
+                || (currentUser.getCurrentEnergyLevel().equals(EnergyLevel.MEDIUM) && (task.getDifficulty().getValue() <= 4 || task.getLikeliness().getValue() >= 3))) {
+                result.add(task);
+                maxTimeEstimated -= task.getTimeEstimate();
+            }
+        }
+
+        return result;
     }
-
     public Integer addTask(Jwt jwt, Task task) {
         AppUser user = appUserService.getUserByEmail(jwt);
         log.info("Current user: id {} name {}", user.getId(), user.getUsername());

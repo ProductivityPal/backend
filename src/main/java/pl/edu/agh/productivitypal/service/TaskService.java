@@ -71,6 +71,7 @@ public class TaskService {
             double priorityScore = Weight.DEADLINE.getValue() * (1 / daysUntilDeadline) * 100 +
                     Weight.DIFFICULTY.getValue() * task.getDifficulty().getValue() +
                     Weight.TIME_ESTIMATE.getValue() * task.getTimeEstimate() +
+                    Weight.PRIORITY.getValue() * task.getPriority() +
                     Weight.LIKELINESS.getValue() * task.getLikeliness().getValue();
             task.setPriorityScore(priorityScore);
         }

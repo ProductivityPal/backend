@@ -4,6 +4,7 @@ public enum Weight {
     DEADLINE(2),
     DIFFICULTY(3),
     TIME_ESTIMATE(1),
+    PRIORITY(3),
     LIKELINESS(2);
 
     private final int value;

@@ -1,4 +1,4 @@
-package pl.edu.agh.productivitypal.dto;
+package pl.edu.agh.productivitypal.request;
 
 import lombok.Builder;
 import lombok.Getter;

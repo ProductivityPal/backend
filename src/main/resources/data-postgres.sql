@@ -85,36 +85,90 @@ BEGIN
             INSERT INTO task(id, name, description, priority, difficulty, likeliness, deadline, time_estimate, completion_time, is_subtask, is_parent, is_completed, parent_id, app_user_id)
             VALUES (23, ''Group project meeting'', ''Coordinate with group members and schedule a meeting to work on the group project'', 4, ''EASY'', ''LOVE'', ''2023-06-08'', 1, NULL, false, false, false, NULL, 5);
 
-            INSERT INTO task(id, name, description, priority, difficulty, likeliness, deadline, time_estimate, completion_time, is_subtask, is_parent, is_completed, parent_id, app_user_id, category)
-            VALUES (24, ''Code review for feature A'', ''Review and provide feedback on the code for feature A'', 3, ''MEDIUM'', ''NEUTRAL'', ''2023-12-08'', 60, 73, false, false, true, NULL, 6, ''beige'');
+--
+--             INSERT INTO task(id, name, description, priority, difficulty, likeliness, deadline, time_estimate, completion_time, is_subtask, is_parent, is_completed, parent_id, app_user_id)
+--             VALUES (24, ''Prepare flashcards with WDI'', NULL, 3, ''EASY'', ''LOVE'', ''2023-12-16T00:00:00'', 60, NULL, false, false, false, NULL, 6);
+--
+--             INSERT INTO task(id, name, description, priority, difficulty, likeliness, deadline, time_estimate, completion_time, is_subtask, is_parent, is_completed, parent_id, app_user_id)
+--             VALUES (25, ''Clean up the files on your laptop'', NULL, 1, ''EASY'', ''HATE'', ''2024-02-16T00:00:00'', 60, NULL, false, false, false, NULL, 6);
+--
+--             INSERT INTO task(id, name, description, priority, difficulty, likeliness, deadline, time_estimate, completion_time, is_subtask, is_parent, is_completed, parent_id, app_user_id)
+--             VALUES (26, ''Take notes from UNIX lectures'', NULL, 3, ''HARD'', ''DISLIKE'', ''2023-12-17T00:00:00'', 60, NULL, false, false, false, NULL, 6);
+--
+--             INSERT INTO task(id, name, description, priority, difficulty, likeliness, deadline, time_estimate, completion_time, is_subtask, is_parent, is_completed, parent_id, app_user_id)
+--             VALUES (27, ''Arrange with friends the repetitions of Discrete Analysis'', NULL, 5, ''MEDIUM'', ''LOVE'', ''2024-02-24T00:00:00'', 60, NULL, false, false, false, NULL, 6);
 
+        --             -- Zadanie 24
+--             INSERT INTO task(id, name, description, priority, difficulty, likeliness, deadline, time_estimate, completion_time, is_subtask, is_parent, is_completed, parent_id, app_user_id, category)
+--             VALUES (24, ''Task 24'', ''Description for Task 24'', 2, ''EASY'', ''LOVE'', ''2024-12-20'', 40, NULL, false, false, false, NULL, 6, ''grey'');
+--
+--             -- Zadanie 25
+--             INSERT INTO task(id, name, description, priority, difficulty, likeliness, deadline, time_estimate, completion_time, is_subtask, is_parent, is_completed, parent_id, app_user_id, category)
+--             VALUES (25, ''Task 25'', ''Description for Task 25'', 3, ''MEDIUM'', ''NEUTRAL'', ''2024-12-21'', 60, NULL, false, false, false, NULL, 6, ''grey'');
+--
+--             -- Zadanie 26
+--             INSERT INTO task(id, name, description, priority, difficulty, likeliness, deadline, time_estimate, completion_time, is_subtask, is_parent, is_completed, parent_id, app_user_id, category)
+--             VALUES (26, ''Task 26'', ''Description for Task 26'', 4, ''EXTRA_HARD'', ''HATE'', ''2024-12-22'', 80, NULL, false, false, false, NULL, 6, ''grey'');
+--
+--             -- Zadanie 27
+--             INSERT INTO task(id, name, description, priority, difficulty, likeliness, deadline, time_estimate, completion_time, is_subtask, is_parent, is_completed, parent_id, app_user_id, category)
+--             VALUES (27, ''Task 27'', ''Description for Task 27'', 2, ''EXTRA_HARD'', ''LOVE'', ''2024-12-23'', 40, NULL, false, false, false, NULL, 6, ''grey'');
+--
+            -- Zadanie 28
             INSERT INTO task(id, name, description, priority, difficulty, likeliness, deadline, time_estimate, completion_time, is_subtask, is_parent, is_completed, parent_id, app_user_id, category)
-            VALUES (25, ''Prepare presentation slides'', ''Create slides for the upcoming project presentation'', 2, ''EASY'', ''DISLIKE'', ''2023-12-07'', 30, 55, false, false, true, NULL, 6, ''green'');
+            VALUES (28, ''Task 28'', ''Description for Task 28'', 3, ''EXTRA_HARD'', ''NEUTRAL'', ''2023-11-20'', 60, NULL, false, false, false, NULL, 6, ''grey'');
 
+            -- Zadanie 29
             INSERT INTO task(id, name, description, priority, difficulty, likeliness, deadline, time_estimate, completion_time, is_subtask, is_parent, is_completed, parent_id, app_user_id, category)
-            VALUES (26, ''Database schema design'', ''Work on designing the database schema for the new application'', 4, ''MEDIUM'', ''LIKE'', ''2023-11-30'', 45, 40, false, false, true, NULL, 6, ''accent'');
+            VALUES (29, ''Task 29'', ''Description for Task 29'', 4, ''EXTRA_HARD'', ''HATE'', ''2023-10-10'', 80, 60, false, false, true, NULL, 6, ''grey'');
 
+            -- Zadanie 30
             INSERT INTO task(id, name, description, priority, difficulty, likeliness, deadline, time_estimate, completion_time, is_subtask, is_parent, is_completed, parent_id, app_user_id, category)
-            VALUES (27, ''Write unit tests'', ''Create unit tests for the key components of the application'', 3, ''MEDIUM'', ''HATE'', ''2023-12-08'', 50, NULL, false, false, false, NULL, 6, ''grey'');
+            VALUES (30, ''Task 30'', ''Description for Task 30'', 2, ''EXTRA_HARD'', ''LOVE'', ''2023-12-07'', 40, NULL, false, false, false, NULL, 6, ''grey'');
 
+            -- Zadanie 31
             INSERT INTO task(id, name, description, priority, difficulty, likeliness, deadline, time_estimate, completion_time, is_subtask, is_parent, is_completed, parent_id, app_user_id, category)
-            VALUES (28, ''Project documentation'', ''Document the progress and key decisions made during the project'', 2, ''EASY'', ''LIKE'', ''2023-12-10'', 90, NULL, false, false, false, NULL, 6, ''beige'');
+            VALUES (31, ''Task 31'', ''Description for Task 31'', 3, ''EXTRA_HARD'', ''NEUTRAL'', ''2023-12-07'', 60, NULL, false, false, false, NULL, 6, ''grey'');
 
+            -- Zadanie 32
             INSERT INTO task(id, name, description, priority, difficulty, likeliness, deadline, time_estimate, completion_time, is_subtask, is_parent, is_completed, parent_id, app_user_id, category)
-            VALUES (29, ''Bug fixing for release'', ''Identify and fix any bugs before the upcoming release'', 4, ''HARD'', ''LOVE'', ''2023-12-15'', 30, NULL, false, false, false, NULL, 6, ''green'');
+            VALUES (32, ''Task 32'', ''Description for Task 32'', 4, ''EXTRA_HARD'', ''HATE'', ''2023-12-08'', 80, NULL, false, false, false, NULL, 6, ''grey'');
 
+            -- Zadanie 33
             INSERT INTO task(id, name, description, priority, difficulty, likeliness, deadline, time_estimate, completion_time, is_subtask, is_parent, is_completed, parent_id, app_user_id, category)
-            VALUES (30, ''Client meeting preparation'', ''Prepare for the client meeting to discuss project requirements'', 3, ''EXTRA_HARD'', ''DISLIKE'', ''2023-12-30'', 20, NULL, false, false, false, NULL, 6, ''beige'');
+            VALUES (33, ''Task 33'', ''Description for Task 33'', 2, ''EXTRA_HARD'', ''LOVE'', ''2023-11-29'', 40, NULL, false, false, false, NULL, 6, ''grey'');
 
-            INSERT INTO task(id, name, description, priority, difficulty, likeliness, deadline, time_estimate, completion_time, is_subtask, is_parent, is_completed, parent_id, app_user_id, category)
-            VALUES (31, ''Security audit'', ''Conduct a security audit for the application code and infrastructure'', 4, ''HARD'', ''LOVE'', ''2024-01-11'', 50, NULL, false, false, false, NULL, 6, ''green'');
-
-            INSERT INTO task(id, name, description, priority, difficulty, likeliness, deadline, time_estimate, completion_time, is_subtask, is_parent, is_completed, parent_id, app_user_id, category)
-            VALUES (32, ''User training materials'', ''Develop training materials for end-users of the application'', 2, ''EASY'', ''HATE'', ''2024-12-20'', 40, NULL, false, false, false, NULL, 6, ''grey'');
-
-            INSERT INTO task(id, name, description, priority, difficulty, likeliness, deadline, time_estimate, completion_time, is_subtask, is_parent, is_completed, parent_id, app_user_id, category)
-            VALUES (33, ''Final project review'', ''Conduct a final review of the entire project and make any necessary adjustments'', 3, ''MEDIUM'', ''LOVE'', ''2024-01-02'', 60, NULL, false, false, false, NULL, 6, ''grey'');
-        END IF;
+        --Scenario user 6
+--             INSERT INTO task(id, name, description, priority, difficulty, likeliness, deadline, time_estimate, completion_time, is_subtask, is_parent, is_completed, parent_id, app_user_id, category)
+--             VALUES (24, ''Code review for feature A'', ''Review and provide feedback on the code for feature A'', 3, ''MEDIUM'', ''NEUTRAL'', ''2023-12-08'', 60, 73, false, false, true, NULL, 6, ''beige'');
+--
+--             INSERT INTO task(id, name, description, priority, difficulty, likeliness, deadline, time_estimate, completion_time, is_subtask, is_parent, is_completed, parent_id, app_user_id, category)
+--             VALUES (25, ''Prepare presentation slides'', ''Create slides for the upcoming project presentation'', 2, ''EASY'', ''DISLIKE'', ''2023-12-07'', 30, 55, false, false, true, NULL, 6, ''green'');
+--
+--             INSERT INTO task(id, name, description, priority, difficulty, likeliness, deadline, time_estimate, completion_time, is_subtask, is_parent, is_completed, parent_id, app_user_id, category)
+--             VALUES (26, ''Database schema design'', ''Work on designing the database schema for the new application'', 4, ''MEDIUM'', ''LIKE'', ''2023-11-30'', 45, 40, false, false, true, NULL, 6, ''accent'');
+--
+--             INSERT INTO task(id, name, description, priority, difficulty, likeliness, deadline, time_estimate, completion_time, is_subtask, is_parent, is_completed, parent_id, app_user_id, category)
+--             VALUES (27, ''Write unit tests'', ''Create unit tests for the key components of the application'', 3, ''MEDIUM'', ''HATE'', ''2023-12-08'', 50, NULL, false, false, false, NULL, 6, ''grey'');
+--
+--             INSERT INTO task(id, name, description, priority, difficulty, likeliness, deadline, time_estimate, completion_time, is_subtask, is_parent, is_completed, parent_id, app_user_id, category)
+--             VALUES (28, ''Project documentation'', ''Document the progress and key decisions made during the project'', 2, ''EASY'', ''LIKE'', ''2023-12-10'', 90, NULL, false, false, false, NULL, 6, ''beige'');
+--
+--             INSERT INTO task(id, name, description, priority, difficulty, likeliness, deadline, time_estimate, completion_time, is_subtask, is_parent, is_completed, parent_id, app_user_id, category)
+--             VALUES (29, ''Bug fixing for release'', ''Identify and fix any bugs before the upcoming release'', 4, ''HARD'', ''LOVE'', ''2023-12-15'', 30, NULL, false, false, false, NULL, 6, ''green'');
+--
+--             INSERT INTO task(id, name, description, priority, difficulty, likeliness, deadline, time_estimate, completion_time, is_subtask, is_parent, is_completed, parent_id, app_user_id, category)
+--             VALUES (30, ''Client meeting preparation'', ''Prepare for the client meeting to discuss project requirements'', 3, ''EXTRA_HARD'', ''DISLIKE'', ''2023-12-30'', 20, NULL, false, false, false, NULL, 6, ''beige'');
+--
+--             INSERT INTO task(id, name, description, priority, difficulty, likeliness, deadline, time_estimate, completion_time, is_subtask, is_parent, is_completed, parent_id, app_user_id, category)
+--             VALUES (31, ''Security audit'', ''Conduct a security audit for the application code and infrastructure'', 4, ''HARD'', ''LOVE'', ''2024-01-11'', 50, NULL, false, false, false, NULL, 6, ''green'');
+--
+--             INSERT INTO task(id, name, description, priority, difficulty, likeliness, deadline, time_estimate, completion_time, is_subtask, is_parent, is_completed, parent_id, app_user_id, category)
+--             VALUES (32, ''User training materials'', ''Develop training materials for end-users of the application'', 2, ''EASY'', ''HATE'', ''2024-12-20'', 40, NULL, false, false, false, NULL, 6, ''grey'');
+--
+--             INSERT INTO task(id, name, description, priority, difficulty, likeliness, deadline, time_estimate, completion_time, is_subtask, is_parent, is_completed, parent_id, app_user_id, category)
+--             VALUES (33, ''Final project review'', ''Conduct a final review of the entire project and make any necessary adjustments'', 3, ''MEDIUM'', ''LOVE'', ''2024-01-02'', 60, NULL, false, false, false, NULL, 6, ''grey'');
+         END IF;
 
     IF (NOT EXISTS(SELECT * FROM calendar))
         THEN
@@ -145,7 +199,7 @@ BEGIN
             insert into calendar_task(start_date, end_date, calendar_id, task_id)
             values (''2019-09-08'', null, 1, 5);
             insert into calendar_task(start_date, end_date, calendar_id, task_id)
-            values (''2023-12-14'', null, 6, 33);
+            values (''2023-12-16'', null, 6, 33);
         END IF;
 
     IF (NOT EXISTS(SELECT * FROM category))

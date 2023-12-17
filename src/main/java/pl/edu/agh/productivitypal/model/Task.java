@@ -29,6 +29,7 @@ public class Task {
     private Difficulty difficulty;
     @Enumerated(EnumType.STRING)
     private Likeliness likeliness;
+    @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime deadline;
     @JsonProperty("time_estimate")
     private Long timeEstimate;

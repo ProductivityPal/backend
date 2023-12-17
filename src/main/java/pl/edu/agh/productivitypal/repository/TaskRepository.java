@@ -2,6 +2,7 @@ package pl.edu.agh.productivitypal.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import pl.edu.agh.productivitypal.model.AppUser;
 import pl.edu.agh.productivitypal.model.Task;
@@ -18,7 +19,8 @@ public interface TaskRepository extends JpaRepository<Task, Integer> {
 
     Task findByIdAndParentId(Integer id, Integer parentId);
 
-    List<Task> findAllByAppUserIdAndDeadlineBetween(Integer id, LocalDateTime startDate, LocalDateTime endDate);
+    @Query("select task from Task task where task.deadline >= :startDate and task.deadline <= :endDate and task.appUser.id = :id")
+    List<Task> findAllByAppUserIdAndDeadlineBetween( @Param("id") Integer id,  @Param("startDate") LocalDateTime startDate,  @Param("endDate") LocalDateTime endDate);
 
     List<Task> findAllByAppUserId(Integer id);
 

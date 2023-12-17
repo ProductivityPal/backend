@@ -3,7 +3,7 @@ package pl.edu.agh.productivitypal.controller;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.edu.agh.productivitypal.config.Jwt;
-import pl.edu.agh.productivitypal.dto.PomodoroRequest;
+import pl.edu.agh.productivitypal.request.PomodoroRequest;
 import pl.edu.agh.productivitypal.model.Task;
 import pl.edu.agh.productivitypal.request.TaskRequest;
 import pl.edu.agh.productivitypal.service.TaskService;

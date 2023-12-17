@@ -47,8 +47,9 @@ public class StatisticService {
         List<CategoryInfoDto> categories = new ArrayList<>();
 
         for (int i = 0; i < 4; i++){
+            String n = categoryNames.get(i).getCustomName() == null ? categoryNames.get(i).getDefaultName() : categoryNames.get(i).getCustomName();
             CategoryInfoDto category = CategoryInfoDto.builder()
-                    .name(categoryNames.get(i).getDefaultName())
+                    .name(n)
                     .done(0)
                     .undone(0)
                     .averageEstimatedTime(0)

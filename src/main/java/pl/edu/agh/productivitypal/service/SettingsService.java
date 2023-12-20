@@ -37,6 +37,19 @@ public class SettingsService {
         this.categoryRepository = categoryRepository;
     }
 
+    @Transactional
+    public void deleteAccount(Jwt jwt) {
+        AppUser currentUser = appUserService.getUserByEmail(jwt);
+        log.info("Current user: id {} name {}", currentUser.getId(), currentUser.getUsername());
+
+        log.info("Deleting user: id {} name {}", currentUser.getId(), currentUser.getUsername());
+
+        calendarService.deleteCalendar(jwt, currentUser.getCalendar().get(0));
+        taskService.deleteAllTasksOfCurrentUser(currentUser);
+
+        appUserRepository.delete(currentUser);
+    }
+
     public void changeLoginData(Jwt jwt, SettingsLoginDto settingsLoginDto) {
         AppUser currentUser = appUserService.getUserByEmail(jwt);
         log.info("Current user: id {} name {}", currentUser.getId(), currentUser.getUsername());
@@ -52,19 +65,6 @@ public class SettingsService {
             currentUser.setPassword(passwordEncoder.encode(settingsLoginDto.getPassword()));
         }
         appUserRepository.save(currentUser);
-    }
-
-    @Transactional
-    public void deleteAccount(Jwt jwt) {
-        AppUser currentUser = appUserService.getUserByEmail(jwt);
-        log.info("Current user: id {} name {}", currentUser.getId(), currentUser.getUsername());
-
-        log.info("Deleting user: id {} name {}", currentUser.getId(), currentUser.getUsername());
-
-        calendarService.deleteCalendar(jwt, currentUser.getCalendar().get(0));
-        taskService.deleteAllTasksOfCurrentUser(currentUser);
-
-        appUserRepository.delete(currentUser);
     }
 
     public void changeCategories(Jwt jwt, CategoryDto categoryDto) {

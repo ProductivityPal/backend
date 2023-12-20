@@ -34,6 +34,20 @@ public class CalendarService {
         this.taskService = taskService;
     }
 
+    @Transactional
+    public void deleteCalendarTask(Jwt jwt, Integer calendarTaskId) {
+        Calendar userCalendar = getCalendarOfCurrentUser(jwt);
+        CalendarTask calendarTaskToDelete = calendarTaskRepository.findByIdAndCalendarId(calendarTaskId, userCalendar.getId()).orElseThrow(() -> new EntityNotFoundException("Calendar task with calendar id " + userCalendar.getId() + " and task id " + calendarTaskId + " not found: "));
+        taskService.deleteTask(calendarTaskToDelete.getTask().getId());
+        calendarTaskRepository.delete(calendarTaskToDelete);
+    }
+    @Transactional
+    public void deleteCalendar(Jwt jwt, Calendar calendar) {
+        for (CalendarTask calendarTask : calendarTaskRepository.findAllByCalendarId(calendar.getId())) {
+            deleteCalendarTask(jwt, calendarTask.getTask().getId());
+        }
+        calendarRepository.delete(calendar);
+    }
     public List<Calendar> getAllCalendars() {
         return calendarRepository.findAll();
     }
@@ -92,30 +106,13 @@ public class CalendarService {
         calendarTaskRepository.save(calendarTaskToUpdate);
     }
 
-    @Transactional
-    public void deleteCalendarTask(Jwt jwt, Integer calendarTaskId) {
-        Calendar userCalendar = getCalendarOfCurrentUser(jwt);
-        CalendarTask calendarTaskToDelete = calendarTaskRepository.findByIdAndCalendarId(calendarTaskId, userCalendar.getId()).orElseThrow(() -> new EntityNotFoundException("Calendar task with calendar id " + userCalendar.getId() + " and task id " + calendarTaskId + " not found: "));
-        taskService.deleteTask(calendarTaskToDelete.getTask().getId());
-        calendarTaskRepository.delete(calendarTaskToDelete);
-    }
-
     public CalendarTask getCalendarTask(Jwt jwt, Integer taskId) {
         Calendar userCalendar = getCalendarOfCurrentUser(jwt);
         return calendarTaskRepository.findByCalendarIdAndTaskId(userCalendar.getId(), taskId).orElseThrow(() -> new EntityNotFoundException("Calendar task with calendar id " + userCalendar.getId() + " and task id " + taskId + " not found: "));
     }
-
     private Calendar getCalendarOfCurrentUser(Jwt jwt){
         AppUser user = appUserService.getUserByEmail(jwt);
         log.info("Current user: id {} name {}", user.getId(), user.getUsername());
         return calendarRepository.findByNameAndAppUser("Default", user);
-    }
-
-    @Transactional
-    public void deleteCalendar(Jwt jwt, Calendar calendar) {
-        for (CalendarTask calendarTask : calendarTaskRepository.findAllByCalendarId(calendar.getId())) {
-            deleteCalendarTask(jwt, calendarTask.getTask().getId());
-        }
-        calendarRepository.delete(calendar);
     }
 }

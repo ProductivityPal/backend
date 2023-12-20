@@ -17,10 +17,8 @@ import pl.edu.agh.productivitypal.repository.dao.TaskSearchDao;
 import pl.edu.agh.productivitypal.request.TaskRequest;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.Period;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -38,6 +36,41 @@ public class TaskService {
         this.appUserRepository = appUserRepository;
         this.appUserService = appUserService;
         this.taskSearchDao = taskSearchDao;
+    }
+
+    @Transactional
+    public void deleteTask(Integer id) {
+        Task taskToDelete = taskRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Task with id: " + id +  "not found"));
+        log.info("Task to delete: {} {}", taskToDelete.getId(), taskToDelete.getName());
+        if (taskToDelete.isParent()) {
+            List<Task> subtasks = taskRepository.findAllByParentId(id);
+            for (Task subtask : subtasks) {
+                subtask.setSubtask(false);
+                subtask.setParentId(null);
+            }
+        }
+        taskRepository.deleteById(id);
+    }
+
+    @Transactional
+    public void deleteAllTasksOfCurrentUser(AppUser currentUser){
+        List<Task> tasksToDelete = taskRepository.findAllByAppUserId(currentUser.getId());
+        for (Task task : tasksToDelete) {
+            deleteTaskAndAllSubtask(task.getId());
+        }
+    }
+
+    @Transactional
+    public void deleteTaskAndAllSubtask(Integer id) {
+        Task taskToDelete = taskRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Task with id: " + id +  "not found"));
+        log.info("Task to delete: {} {}", taskToDelete.getId(), taskToDelete.getName());
+        if (taskToDelete.isParent()) {
+            List<Task> subtasks = taskRepository.findAllByParentId(id);
+            for (Task subtask : subtasks) {
+                taskRepository.deleteById(subtask.getId());
+            }
+        }
+        taskRepository.deleteById(id);
     }
     public List<Task> getAllTasks() {
         return taskRepository.findAll();
@@ -107,44 +140,6 @@ public class TaskService {
         return taskRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Task with id: " + id +  "not found"));
     }
 
-    private Task updateTaskData(Task task, Task taskToUpdate){
-        if (task.getName() != null){
-            taskToUpdate.setName(task.getName());
-        }
-        if(task.getDescription() != null){
-            taskToUpdate.setDescription(task.getDescription());
-        }
-        if(task.getPriority() != 0){
-            taskToUpdate.setPriority(task.getPriority());
-        }
-        if(task.getDifficulty() != null){
-            taskToUpdate.setDifficulty(task.getDifficulty());
-        }
-        if (task.getLikeliness() != null){
-            taskToUpdate.setLikeliness(task.getLikeliness());
-        }
-        if (task.getDeadline() != null){
-            taskToUpdate.setDeadline(task.getDeadline());
-        }
-        if (task.getTimeEstimate() != null){
-            taskToUpdate.setTimeEstimate(task.getTimeEstimate());
-        }
-        if (task.getCompletionTime() != null){
-            taskToUpdate.setCompletionTime(task.getCompletionTime());
-        }
-        if (task.getPriorityScore() != 0){
-            taskToUpdate.setPriorityScore(task.getPriorityScore());
-        }
-        if(task.isCompleted()){
-            taskToUpdate.setCompleted(task.isCompleted());
-        }
-        if (task.getCategory() != null){
-            taskToUpdate.setCategory(task.getCategory());
-        }
-
-        return taskToUpdate;
-    }
-
     public Task updateTask(Integer id, Task task){
         Task taskToUpdate = taskRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Task with id: " + id +  "not found"));
         log.info("Task to update: {} {}", taskToUpdate.getId(), taskToUpdate.getName());
@@ -173,41 +168,6 @@ public class TaskService {
 
         taskRepository.save(subtask);
         return subtask.getId();
-    }
-
-    @Transactional
-    public void deleteTask(Integer id) {
-        Task taskToDelete = taskRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Task with id: " + id +  "not found"));
-        log.info("Task to delete: {} {}", taskToDelete.getId(), taskToDelete.getName());
-        if (taskToDelete.isParent()) {
-            List<Task> subtasks = taskRepository.findAllByParentId(id);
-            for (Task subtask : subtasks) {
-                subtask.setSubtask(false);
-                subtask.setParentId(null);
-            }
-        }
-        taskRepository.deleteById(id);
-    }
-
-    @Transactional
-    public void deleteAllTasksOfCurrentUser(AppUser currentUser){
-        List<Task> tasksToDelete = taskRepository.findAllByAppUserId(currentUser.getId());
-        for (Task task : tasksToDelete) {
-            deleteTaskAndAllSubtask(task.getId());
-        }
-    }
-
-    @Transactional
-    public void deleteTaskAndAllSubtask(Integer id) {
-        Task taskToDelete = taskRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Task with id: " + id +  "not found"));
-        log.info("Task to delete: {} {}", taskToDelete.getId(), taskToDelete.getName());
-        if (taskToDelete.isParent()) {
-            List<Task> subtasks = taskRepository.findAllByParentId(id);
-            for (Task subtask : subtasks) {
-                taskRepository.deleteById(subtask.getId());
-            }
-        }
-        taskRepository.deleteById(id);
     }
 
     public void deleteSubtask(Integer taskId, Integer subtaskId) {
@@ -247,5 +207,43 @@ public class TaskService {
         Task taskToUpdate = taskRepository.findById(taskId).orElseThrow(() -> new EntityNotFoundException("Task with id: " + taskId +  "not found"));
         taskToUpdate.setCompletionTime(completionTime);
         taskRepository.save(taskToUpdate);
+    }
+
+    private Task updateTaskData(Task task, Task taskToUpdate){
+        if (task.getName() != null){
+            taskToUpdate.setName(task.getName());
+        }
+        if(task.getDescription() != null){
+            taskToUpdate.setDescription(task.getDescription());
+        }
+        if(task.getPriority() != 0){
+            taskToUpdate.setPriority(task.getPriority());
+        }
+        if(task.getDifficulty() != null){
+            taskToUpdate.setDifficulty(task.getDifficulty());
+        }
+        if (task.getLikeliness() != null){
+            taskToUpdate.setLikeliness(task.getLikeliness());
+        }
+        if (task.getDeadline() != null){
+            taskToUpdate.setDeadline(task.getDeadline());
+        }
+        if (task.getTimeEstimate() != null){
+            taskToUpdate.setTimeEstimate(task.getTimeEstimate());
+        }
+        if (task.getCompletionTime() != null){
+            taskToUpdate.setCompletionTime(task.getCompletionTime());
+        }
+        if (task.getPriorityScore() != 0){
+            taskToUpdate.setPriorityScore(task.getPriorityScore());
+        }
+        if(task.isCompleted()){
+            taskToUpdate.setCompleted(task.isCompleted());
+        }
+        if (task.getCategory() != null){
+            taskToUpdate.setCategory(task.getCategory());
+        }
+
+        return taskToUpdate;
     }
 }

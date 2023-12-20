@@ -22,7 +22,7 @@ public class SettingsController {
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
-    @PostMapping("/login")
+    @PutMapping("/login")
     public ResponseEntity<String> changeLoginData(@RequestHeader(AUTHORIZATION_HEADER) Jwt jwt, @RequestBody SettingsLoginDto settingsLoginDto){
         log.info("Received request to change login data. Data {}", settingsLoginDto);
         settingsService.changeLoginData(jwt, settingsLoginDto);
@@ -37,7 +37,7 @@ public class SettingsController {
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
-    @PostMapping("/category")
+    @PutMapping("/category")
     public ResponseEntity<String> changeCategories(@RequestHeader(AUTHORIZATION_HEADER) Jwt jwt, @RequestBody CategoryDto categoryDto){
         settingsService.changeCategories(jwt, categoryDto);
         return ResponseEntity.ok("Categories were changed successfully.");

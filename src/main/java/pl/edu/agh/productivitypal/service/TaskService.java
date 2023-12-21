@@ -94,7 +94,7 @@ public class TaskService {
         List<Task> tasks = taskRepository
                 .findAll()
                 .stream()
-                .filter(task -> task.getAppUser().getId().equals(currentUser.getId()))
+                .filter(task -> task.getAppUser().getId().equals(currentUser.getId()) && !task.isCompleted())
                 .collect(Collectors.toList());;
 
         LocalDate now = LocalDate.now();

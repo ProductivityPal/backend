@@ -15,7 +15,7 @@ BEGIN
             insert into app_user(id, username, password, email, current_energy_level, is_email_verified, role)
             values (5, ''student'', ''$2a$10$/nL8rFQ4w6ZOVU8wBbSTFeJS28NE15P7jOo/OFY7S6nrFoNWQazAC'', ''student@gmail.com'', ''MEDIUM'', false, ''USER'');
             insert into app_user(id, username, password, email, current_energy_level, is_email_verified, role)
-            values (6, ''student2'', ''$2a$10$/nL8rFQ4w6ZOVU8wBbSTFeJS28NE15P7jOo/OFY7S6nrFoNWQazAC'', ''student2@gmail.com'', ''MEDIUM'', false, ''USER'');
+            values (6, ''student2'', ''$2a$10$/nL8rFQ4w6ZOVU8wBbSTFeJS28NE15P7jOo/OFY7S6nrFoNWQazAC'', ''julia@gmail.com'', ''MEDIUM'', false, ''USER'');
     END IF;
 
     IF (NOT EXISTS(SELECT * FROM task))
@@ -116,27 +116,31 @@ BEGIN
 --
             -- Zadanie 28
             INSERT INTO task(id, name, description, priority, difficulty, likeliness, deadline, time_estimate, completion_time, is_subtask, is_parent, is_completed, parent_id, app_user_id, category)
-            VALUES (28, ''Task 28'', ''Description for Task 28'', 3, ''EXTRA_HARD'', ''NEUTRAL'', ''2023-11-20'', 60, NULL, false, false, false, NULL, 6, ''grey'');
+            VALUES (28, ''Homework lab 5'', ''Homework from lab 5'', 3, ''EXTRA_HARD'', ''NEUTRAL'', ''2023-11-20'', 60, NULL, false, false, true, NULL, 6, ''grey'');
 
             -- Zadanie 29
             INSERT INTO task(id, name, description, priority, difficulty, likeliness, deadline, time_estimate, completion_time, is_subtask, is_parent, is_completed, parent_id, app_user_id, category)
-            VALUES (29, ''Task 29'', ''Description for Task 29'', 4, ''EXTRA_HARD'', ''HATE'', ''2023-10-10'', 80, 60, false, false, true, NULL, 6, ''grey'');
+            VALUES (29, ''Review the lecture 5'', ''Review the lecture 5'', 4, ''EXTRA_HARD'', ''HATE'', ''2023-11-10'', 80, 60, false, false, true, NULL, 6, ''grey'');
 
             -- Zadanie 30
             INSERT INTO task(id, name, description, priority, difficulty, likeliness, deadline, time_estimate, completion_time, is_subtask, is_parent, is_completed, parent_id, app_user_id, category)
-            VALUES (30, ''Task 30'', ''Description for Task 30'', 2, ''EXTRA_HARD'', ''LOVE'', ''2023-12-07'', 40, NULL, false, false, false, NULL, 6, ''grey'');
+            VALUES (30, ''Write code for 8 Hetmans'', ''Description for Task 30'', 2, ''EXTRA_HARD'', ''LOVE'', ''2024-01-09'', 40, NULL, false, false, true, NULL, 6, ''beige'');
 
             -- Zadanie 31
             INSERT INTO task(id, name, description, priority, difficulty, likeliness, deadline, time_estimate, completion_time, is_subtask, is_parent, is_completed, parent_id, app_user_id, category)
-            VALUES (31, ''Task 31'', ''Description for Task 31'', 3, ''EXTRA_HARD'', ''NEUTRAL'', ''2023-12-07'', 60, NULL, false, false, false, NULL, 6, ''grey'');
+            VALUES (31, ''Buy a new keyboard'', ''Search on amazon'', 3, ''EXTRA_HARD'', ''NEUTRAL'', ''2024-02-11'', 60, NULL, false, false, false, NULL, 6, ''green'');
 
             -- Zadanie 32
             INSERT INTO task(id, name, description, priority, difficulty, likeliness, deadline, time_estimate, completion_time, is_subtask, is_parent, is_completed, parent_id, app_user_id, category)
-            VALUES (32, ''Task 32'', ''Description for Task 32'', 4, ''EXTRA_HARD'', ''HATE'', ''2023-12-08'', 80, NULL, false, false, false, NULL, 6, ''grey'');
+            VALUES (32, ''Homework lab 6'', ''Homework lab 6'', 4, ''EXTRA_HARD'', ''HATE'', ''2023-12-20'', 80, NULL, false, false, false, NULL, 6, ''grey'');
 
             -- Zadanie 33
             INSERT INTO task(id, name, description, priority, difficulty, likeliness, deadline, time_estimate, completion_time, is_subtask, is_parent, is_completed, parent_id, app_user_id, category)
-            VALUES (33, ''Task 33'', ''Description for Task 33'', 2, ''EXTRA_HARD'', ''LOVE'', ''2023-11-29'', 40, NULL, false, false, false, NULL, 6, ''grey'');
+            VALUES (33, ''Review the scripts for the test'', ''Scripts'', 2, ''EXTRA_HARD'', ''LOVE'', ''2023-11-29'', 40, NULL, false, false, false, NULL, 6, ''accent'');
+
+            -- Zadanie 34
+            INSERT INTO task(id, name, description, priority, difficulty, likeliness, deadline, time_estimate, completion_time, is_subtask, is_parent, is_completed, parent_id, app_user_id, category)
+            VALUES (34, ''Meeting for common UXIX recap'', ''Scripts'', 2, ''EXTRA_HARD'', ''LOVE'', ''2024-01-29'', 40, NULL, false, false, false, NULL, 6, ''accent'');
 
         --Scenario user 6
 --             INSERT INTO task(id, name, description, priority, difficulty, likeliness, deadline, time_estimate, completion_time, is_subtask, is_parent, is_completed, parent_id, app_user_id, category)
@@ -199,7 +203,7 @@ BEGIN
             insert into calendar_task(start_date, end_date, calendar_id, task_id)
             values (''2019-09-08'', null, 1, 5);
             insert into calendar_task(start_date, end_date, calendar_id, task_id)
-            values (''2023-12-16'', null, 6, 33);
+            values (''2024-01-16'', null, 6, 33);
         END IF;
 
     IF (NOT EXISTS(SELECT * FROM category))
@@ -225,11 +229,11 @@ BEGIN
     IF (NOT EXISTS(SELECT * FROM energy_level_info))
         THEN
             insert into energy_level_info(energy_level, notification_time, app_user_id)
-            values (''LOW'', ''2023-12-10T11:59:11.332Z'', 6);
+            values (''LOW'', ''2024-01-13T11:59:11.332Z'', 6);
             insert into energy_level_info(energy_level, notification_time, app_user_id)
-            values (''LOW'', ''2023-12-11T11:59:11.332Z'', 6);
+            values (''LOW'', ''2024-01-12T11:59:11.332Z'', 6);
             insert into energy_level_info(energy_level, notification_time, app_user_id)
-            values (''MEDIUM'', ''2023-12-11T08:59:11.332Z'', 6);
+            values (''MEDIUM'', ''2024-01-11T08:59:11.332Z'', 6);
         END IF;
 
 
